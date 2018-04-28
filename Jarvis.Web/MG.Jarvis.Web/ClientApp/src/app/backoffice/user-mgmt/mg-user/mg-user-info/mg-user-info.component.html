@@ -1,0 +1,198 @@
+<div class="container-fluid pt-4">
+  <div class="customBreadcrumb mb-4">
+    <span>MG </span>
+    <span *ngIf="operation == 'create'">&gt; Create New MG User</span>
+    <span *ngIf="operation == 'edit'">&gt; Edit MG User</span>
+  </div>
+  <h1 *ngIf="operation == 'create'" class="mainHeading mb-2 customBreadcrumb borderBottomNone">Create New User<span class="mandatoryInfo float-right">Indicates Mandatory Fields</span></h1>
+  <h1 *ngIf="operation == 'edit'" class="mainHeading mb-2 customBreadcrumb borderBottomNone">Edit User<span class="mandatoryInfo float-right">Indicates Mandatory Fields</span></h1>
+  <form [formGroup]="mgUserForm" (ngSubmit)="saveUser()">
+    <div class="row customeRow">
+      <div class="col-md-2 col-lg-1">
+        <div class="userImageSection">
+          <mat-icon class="userImage">account_circle</mat-icon>
+          <div class="image-upload">
+            <label for="file-input">
+              <img src="assets/uploadPhoto.png" title="Upload Image" />
+            </label>
+            <input id="file-input" type="file" />
+          </div>
+          <button class="deletePhoto" mat-raised-button title="Delete Image">
+            <i class="fa fa-times-thin"></i>
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row customeRow formSections p-0 borderBottomNone">
+      <div class="form-group pt-2 col-md-4 col-lg-3">
+        <mat-form-field>
+          <input matInput placeholder="First Name" formControlName="firstName" id="firstName" required />
+        </mat-form-field>
+      </div>
+      <div class="form-group pt-2 col-md-4 col-lg-3">
+        <mat-form-field>
+          <input matInput placeholder="Last Name" formControlName="lastName" id="lastName" required />
+        </mat-form-field>
+      </div>
+      <div class="form-group pt-2 col-md-4 col-lg-3">
+        <mat-form-field>
+          <input matInput placeholder="Employee ID" formControlName="employeeId" id="employeeID" required />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row customeRow formSections p-0 borderBottomNone">
+
+      <div class="form-group col-md-4 col-lg-3">
+        <mat-form-field>
+          <input matInput placeholder="Email ID" formControlName="email" id="email" pattern="\w+@\w+\.\w+(,\s*\w+@\w+\.\w+)*" required />
+        </mat-form-field>
+      </div>
+      <div class="form-group col-md-4 col-lg-3">
+        <mat-form-field>
+          <mat-select placeholder="Department(s)" name="department" formControlName="departments" multiple required>
+            <mat-option *ngFor="let department of departmentList" [value]="department.id">{{department.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <h6 class="blackText mavenProMedium pt-3">Please Select Application & Role</h6>
+    <div formArrayName="userApplicationRole" *ngFor="let appRole of userApplicationRole.controls; let i =index">
+      <div [formGroupName]="i">    
+       
+          <div class="row formSections p-0 borderBottomNone alignItemCenter">
+            <div class="col-md-8">
+              <div class="blueBackground d-flex pt-4 pl-2">
+                <div class="row pb-1">
+                <div class="form-group ml-4 pl-1 pr-0 col-md-5 col-lg-3 mb-0">
+                  <mat-form-field>
+                    <mat-select formControlName="applicationId" placeholder="Application" (change)="getRolesForApplication(i)" required>
+                      <mat-option [value]="null">Select</mat-option>
+                      <ng-container *ngFor="let app of applicationList">
+                        <mat-option [value]="app.id">{{app.name}}</mat-option>
+                      </ng-container>
+                    </mat-select>
+                  </mat-form-field>
+                 
+                </div>
+                <div class="form-group pl-0 pr-0 ml-5 col-md-5 col-lg-3 mb-0">
+                  <mat-form-field>
+                    <mat-select formControlName="roleId" placeholder="Roles" required>
+                      <mat-option [value]="null">Select</mat-option>
+                      <ng-container *ngFor="let role of this.appRolesListArray[i] ">
+                        <mat-option [value]="role.id">{{role.name}}</mat-option>
+                      </ng-container>
+                    </mat-select>
+                  </mat-form-field>
+                  
+                </div>
+                <div class="col-md-2 ml-5 pt-1 text-right">
+                  <ng-container *ngIf="i > 0">
+                    <span class="btn transparent-circle mr-3" title="Delete" (click)="confirmDeleteAppRole(i)"><i aria-hidden="true" class="fa fa-times-thin"></i></span>
+                  </ng-container>
+                  <span class="btn transparent-circle" title="Add" [hidden]='isMaxLength' (click)="addAppRole()"><span></span></span>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>      
+  </div>
+</div>
+
+    <div class="row">
+      <div class="col-md-12 pt-2 ">
+        <mat-error *ngIf="mgUserForm.get('userApplicationRole').errors && mgUserForm.get('userApplicationRole').errors.ValidateAppRole">
+          This app type is already selected.
+        </mat-error>
+        <mat-error *ngIf="mgUserForm.get('userApplicationRole').errors && mgUserForm.get('userApplicationRole').errors.ValidateAppRoleNotNull">
+          Role needs to be selected
+        </mat-error>
+      </div>
+    </div>
+
+    <div class="row customeRow formSections p-0 borderBottomNone">
+      <div class="form-group col-md-4 col-lg-3 pt-2 mb-0 mt-3 pt-3">
+        <mat-form-field>
+          <input matInput [matDatepicker]="activationDate" placeholder="Activation Date" formControlName="activationDate" [min]="todaysDate" required>
+          <mat-datepicker-toggle matSuffix [for]="activationDate">
+            <mat-icon matDatepickerToggleIcon>
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #activationDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div *ngIf="operation == 'edit'" class="row customeRow formSections p-0 borderBottomNone">
+      <div class="col-md-12">
+        <div class="row customeRow">
+          <div class="form-group col-md-4 col-lg-3 mb-3 mt-3">
+            <mat-checkbox [checked]="isInactivateUser" (change)="showHideInactiationDatesSection($event)">Inactivate User</mat-checkbox>
+          </div>
+        </div>
+        <div class="row" *ngIf="isInactivateUser">
+          <div class="pl-2 ml-2 form-group col-md-4 col-lg-3 mb-0">
+            <mat-radio-group class="d-flex" (change)="toggleInactiveUserType($event)">
+              <mat-radio-button value="T" [checked]="inactiveType == 'T'">Temporary</mat-radio-button>
+              <mat-radio-button value="P" [checked]="inactiveType == 'P'">Permanent</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <div class="row" *ngIf="isInactivateUser && inactiveType == 'T'">
+          <div class="pl-2 form-group col-md-4 col-lg-3 mb-0">
+            <div class="row">
+              <div class="col-md-6 mt-3 pt-2">
+                <mat-form-field>
+                  <input matInput [matDatepicker]="inactiveFromDate" placeholder="Inactive From" formControlName="temporaryInActivationDate" [min]="todaysDate" (dateInput)="inActiveFromDateChange('input', $event)" (dateChange)="inActiveFromDateChange('change', $event)" [required]="inactiveType == 'T'">
+                  <mat-datepicker-toggle matSuffix [for]="inactiveFromDate">
+                    <mat-icon matDatepickerToggleIcon>
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #inactiveFromDate></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mt-3 pt-2">
+                <mat-form-field>
+                  <input matInput [matDatepicker]="inactiveToDate" placeholder="Inactive To" formControlName="temporaryActivationDate" [min]="inactiveToMinDate" [required]="inactiveType == 'T'">
+                  <mat-datepicker-toggle matSuffix [for]="inactiveToDate">
+                    <mat-icon matDatepickerToggleIcon>
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #inactiveToDate></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="isInactivateUser && inactiveType == 'P'">
+          <div class="ml-3 mt-3 form-group col-md-4 col-lg-3 mb-0">
+            <mat-form-field>
+              <input matInput [matDatepicker]="inactivationDate" placeholder="Inactivation Date" formControlName="deActivationDate" [min]="todaysDate" [required]="inactiveType == 'P'">
+              <mat-datepicker-toggle matSuffix [for]="inactivationDate">
+                <mat-icon matDatepickerToggleIcon>
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #inactivationDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 controlButtons pl-3">
+        <button title="Save" type="submit" class="genericButton activeButton mat-primary mr-1" mat-raised-button [disabled]="!mgUserForm.valid">Save</button>
+        <button title="Cancel" type="button" class="genericButton defaultButton" mat-raised-button (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
+

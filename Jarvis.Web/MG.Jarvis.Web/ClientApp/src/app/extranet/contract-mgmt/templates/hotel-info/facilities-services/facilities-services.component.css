@@ -1,0 +1,11 @@
+.checkBoxList {
+    padding-left: 120px !important;
+}
+
+.iconHeading mat-checkbox {
+    top: -4px;
+}
+
+h5 {
+    font-family: 'maven_promedium';
+}

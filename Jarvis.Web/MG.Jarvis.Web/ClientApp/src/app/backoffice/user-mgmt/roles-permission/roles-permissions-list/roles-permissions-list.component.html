@@ -1,0 +1,65 @@
+<div class="container-fluid">
+  <div class="mt-4 pt-2">
+    <h1 class="mainHeading mb-1 pb-0 borderBottomNone">Roles & Permissions</h1>
+    <div class="row">
+      <div class="col-md-12 pt-3 pb-3 controlButtons">
+        <button title="Set New Permissions" type="submit" class="btn defaultButton genericButton genericSmallButton"
+                mat-raised-button (click)="setNewPermissions()">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          <span>Set New Permissions</span>
+        </button>
+      </div>
+    </div>
+    <mat-table #table  [dataSource]="dataSource" matSort (matSortChange)="sortData($event)"  matSortActive="createdOn" matSortDirection="desc" class="flexNone genericTable mb-4 pb-1 mat-table">
+
+      <ng-container matColumnDef="applicationName">
+        <mat-header-cell class="applicationNameTH" *matHeaderCellDef mat-sort-header> Application Name </mat-header-cell>
+        <mat-cell class="applicationNameTH" *matCellDef="let element"> {{element.applicationName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="roleName">
+        <mat-header-cell class="roleNameTH" *matHeaderCellDef mat-sort-header> Role Type </mat-header-cell>
+        <mat-cell class="roleNameTH" *matCellDef="let element"> {{element.roleName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="createdBy">
+        <mat-header-cell class="createdByTH" *matHeaderCellDef mat-sort-header> Creadted By </mat-header-cell>
+        <mat-cell class="createdByTH" *matCellDef="let element"> {{element.createdBy}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="createdOn">
+        <mat-header-cell class="createdOnTH" *matHeaderCellDef mat-sort-header> Creadted On` </mat-header-cell>
+        <mat-cell class="createdOnTH" *matCellDef="let element"> {{element.createdOn | date : "dd-MMM-yy" }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" class="text-center">
+        <mat-header-cell class="userActionTH noOutlineOnFocus" *matHeaderCellDef mat-sort-header> </mat-header-cell>
+        <mat-cell class="placeholderColorGray userActionTH" *matCellDef="let element">
+          <mat-select placeholder="Actions" name="Actions" [(ngModel)]="actions">
+              <mat-option value="{{element.roleId}}:{{element.applicationId}}:edit" #edit (click)="goUpdate(edit.value)">Edit</mat-option>
+            <mat-option value="{{element.id}}:delete" #delete (click)="goDelete(delete.value)">Delete</mat-option>
+          </mat-select>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+    <div style="color:orange" *ngIf="noDataAvailable">
+      No Users are created.
+    </div>
+    <div class="paginationWrapper">
+      <span class="pageCount" *ngIf="!noDataAvailable">
+        Page: {{(pageEvent) ? pageEvent.pageIndex + 1 : 1}} of {{
+(pageEvent) ? Math.ceil(pageEvent.length/pageEvent.pageSize)
+      : Math.ceil(totalRecords/20)
+        }}
+      </span>
+
+      <mat-paginator *ngIf="!noDataAvailable" class="genericPagination" (page)="pageEvent = $event" #paginator [pageSize]="20"
+                     [pageSizeOptions]="[5, 10, 20]">
+      </mat-paginator>
+    </div>
+    </div>
+  </div>

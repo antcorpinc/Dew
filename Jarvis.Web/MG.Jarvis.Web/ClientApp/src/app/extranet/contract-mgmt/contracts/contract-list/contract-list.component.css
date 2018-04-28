@@ -1,0 +1,191 @@
+.genericTable th:nth-child(1), .genericTable tr td:nth-child(1) {
+  width: 2%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.genericTable th:nth-child(2), .genericTable tr td:nth-child(2) {
+  width: 15%;
+}
+.genericTable th:nth-child(3), .genericTable tr td:nth-child(3) {
+  width: 15%;
+}
+.genericTable th:nth-child(4), .genericTable tr td:nth-child(4) {
+  width: 10%;
+}
+.genericTable th:nth-child(5), .genericTable tr td:nth-child(5) {
+  width: 11%;
+}
+.genericTable th:nth-child(6), .genericTable tr td:nth-child(6) {
+  width: 14%;
+}
+.genericTable th:nth-child(7), .genericTable tr td:nth-child(7) {
+  width: 13%;
+}
+.genericTable th:nth-child(8), .genericTable tr td:nth-child(8) {
+  width: 10%;
+}
+.genericTable th:nth-child(9), .genericTable tr td:nth-child(9) {
+  width: 10%;
+}
+
+.extraRowsCount {
+  background-color: #29aae2 ;
+  padding: 5px;
+  color: #fff;
+}
+
+.extraRowsCount span {
+  font-size: 15px;
+}
+
+.fa-angle-down, .fa-angle-up {
+  font-size: 20px;
+  color: #29aae2 ;
+}
+
+.page-size {
+  display: flex;
+  float: right;
+  position: relative;
+  font-size: 13.5px;
+  width: 66px;
+  margin-top: 0.1875rem;
+}
+
+.page-size label {
+  display: inline-block;
+  margin: 0 .5rem .5rem 0;
+  line-height: 2rem;
+  white-space: nowrap;
+}
+
+.page-size mat-select {
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.page-size select::-ms-expand {
+  display: none;
+}
+
+.contractsPagination {
+  font-size: 0.875rem;
+  display: inline-block;
+}
+
+pagination-controls /deep/ .ngx-pagination .current {
+  color: #29aae2 ;
+  font-family: 'maven_proregular';
+  background: #fff;
+}
+
+.PaginationControls{
+  text-align: center;
+}
+/*Pagination next*/
+
+pagination-controls /deep/ li.pagination-next.ng-star-inserted {
+    font-size: 0.1rem;
+    color: #29aae2;
+    background: #29aae2;
+    padding: 8px 0 1px 0px !important;
+    line-height: 12px;
+    position: relative;
+}
+
+  pagination-controls /deep/ li.pagination-next.ng-star-inserted.disabled {
+    font-size: 0.2rem;
+    background: rgba(0, 0, 0, 0.12) !important;
+    opacity:inherit;
+    color:rgba(0, 0, 0, 0.12) !important;
+    padding: 6px 8px 0 7px !important;
+    line-height: 23px;
+    position: relative;
+  }
+
+pagination-controls /deep/ li.pagination-previous.disabled.ng-star-inserted {
+  background: rgba(0, 0, 0, 0.12) !important;
+  opacity:inherit;
+  color:rgba(0, 0, 0, 0.12) !important;
+}
+
+  pagination-controls /deep/ li.pagination-previous.disabled.ng-star-inserted{
+    background: rgba(0, 0, 0, 0.12) !important;
+    opacity:inherit;
+    color:rgba(0, 0, 0, 0.12) !important;
+  }
+
+  pagination-controls /deep/ li.pagination-next.ng-star-inserted a.ng-star-inserted:before {
+    content: '\F0Da';
+    font: 21px FontAwesome;
+    display: inline-block;
+    color: #fff;
+    position: absolute;
+    left: 14px;
+    top: 3px;
+  }
+
+  pagination-controls /deep/ li.pagination-next.ng-star-inserted.disabled:before {
+    content: '\F0Da';
+    font: 21px FontAwesome;
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.26);
+    position: absolute;
+    left: 14px;
+    top: 4px;
+  }
+
+
+/*Pagination previous*/
+
+pagination-controls /deep/ li.pagination-previous.disabled.ng-star-inserted {
+  font-size: 0.2rem;
+  color: #b3c3d9;
+  background: #b3c3d9;
+  padding: 6px 6px 0 15px !important;
+  position: relative;
+  line-height: 23px;
+}
+
+  pagination-controls /deep/ li.pagination-previous.disabled.ng-star-inserted:before {
+    content: '\F0D9';
+    font: 21px FontAwesome;
+    display: inline-block;
+    left: 34%;
+    color: #fff;
+    position: absolute;
+    top: 11%;
+  }
+
+pagination-controls /deep/ li.pagination-previous.ng-star-inserted {
+  color: #29aae2;
+  background: #29aae2;
+  font-size: 0.2rem;
+  line-height: 16px;
+  padding-top: 6px;
+  position: relative;
+}
+
+  pagination-controls /deep/ li.pagination-previous.ng-star-inserted a.ng-star-inserted {
+    position: relative;
+  }
+
+    pagination-controls /deep/ li.pagination-previous.ng-star-inserted a.ng-star-inserted:before {
+      content: '\F0D9';
+      font: 21px FontAwesome;
+      display: inline-block;
+      color: #fff;
+      position: absolute;
+      bottom: 4px;
+      left: 10px;
+    }
+
+pagination-controls /deep/ .ngx-pagination a:hover,
+.ngx-pagination button:hover {
+  background: none;
+}
+
+.width80percent {
+  width: 80%;
+}

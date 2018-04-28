@@ -1,0 +1,10 @@
+
+.transparent-circle span:before {
+  top: -11.5px;
+  right: 3px;
+}
+
+.controlButtons {
+  padding-top: 30px !important;
+  padding-bottom: 28px !important;
+}

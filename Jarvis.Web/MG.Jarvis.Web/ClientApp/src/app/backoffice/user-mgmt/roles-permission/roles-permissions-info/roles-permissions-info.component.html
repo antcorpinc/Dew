@@ -1,0 +1,94 @@
+<div class="container-fluid pt-4">
+  <div class="customBreadcrumb mb-3 pb-1">
+    <span>Roles & Permissions </span>
+    <span>&gt; Set New Permissions</span>
+  </div>
+  <h1 class="mainHeading mb-4">Set New Permissions</h1>
+  <form [formGroup]="setNewPermissionForm">
+    <div class="row customeRow">
+      <div class="form-group col-md-4 col-lg-3 pt-2">
+        <mat-form-field>
+          <mat-select placeholder="Application Name" name="Application Name" formControlName="userApplication" required [(ngModel)]="selectedOption"
+            (change)="getApplicationRoles(setNewPermissionForm.get('userApplication').value); getFeaturesByAppId(setNewPermissionForm.get('userApplication').value);">
+            <mat-option *ngFor="let app of applicationList" [value]="app.id">{{app.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row customeRow">
+      <div class="form-group col-md-4 col-lg-3">
+        <mat-form-field>
+          <mat-select placeholder="Role Type" name="Role Type" formControlName="userRole" required>
+            <mat-option *ngFor="let roles of applicationRolesList" [value]="roles.id">{{roles.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- <div class="row customeRow">
+      <div class="col-md-8 col-lg-6 form-group">
+        <mat-form-field>
+          <textarea rows="5" cols="200" matInput placeholder="Description" maxlength="500"></textarea>
+        </mat-form-field>
+      </div>
+    </div> -->
+    <h6 class="h6 pt-3 pb-2">Set Permissions</h6>
+    <div class="row">
+      <div class="form-group col-md-12 table-responsive">
+
+        <table class="table genericTable">
+          <thead>
+            <tr class="title-Bar">
+              <th class="iconTH"></th>
+              <th class="moduleTH">Modules</th>
+              <th class="subModuleTH">Sub-Modules</th>
+              <th class="readAccessTH">Read-Only</th>
+              <th class="fullAccessTH">Full Access</th>
+            </tr>
+          </thead>
+          <div formArrayName="featureDetails" *ngFor="let feature of featureDetails.controls; let i =index">
+          <div [formGroupName]="i">
+              <tbody>
+                <ng-container *ngFor="let element of featureList">
+                  <tr>
+                    <td>
+                      <div class="ml-1 transparent-circle">
+                        <i class="material-icons plusIcon" aria-hidden="true">add</i>
+                      </div>
+                    </td><td>{{element.name}}</td>
+                    <td></td>
+                    <td><mat-checkbox  [checked]="element.privilages=='VW' ? true : false" ></mat-checkbox></td>
+                    <td><mat-checkbox  [checked]="element.privilages!='VW' && element.privilages !=''
+                      && element.privilages != null? true : false" ></mat-checkbox></td>
+                  </tr>
+                  <ng-container *ngFor="let subElement of element.subModule">
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td>{{subElement.name}}
+                      </td>
+
+                      <td>
+                        <mat-checkbox [checked]="subElement.privilages=='VW' ? true : false"></mat-checkbox>
+                      </td>
+                      <td>
+                        <mat-checkbox  [checked]="subElement.privilages!='VW' && subElement.privilages !=''
+                        && subElement.privilages != null? true : false"></mat-checkbox>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </tbody>
+          </div>
+          </div>
+        </table>
+      </div>
+    </div>
+
+    <div class="controlButtons borderTopDark paddingTop50px pb-4 mb-1 paddingRight15px">
+        <button title="Save" class="genericButton activeButton mat-raised-button mat-primary" (click)="savePermissions()">Save</button>
+        <button title="Cancel" class="genericButton defaultButton" (click)="cancel()">Cancel</button>
+        <button title="Continue" class="genericButton activeButton mat-raised-button mat-primary float-right">Save &amp; Set New Permissions</button>
+    </div>
+
+  </form>
+</div>

@@ -1,0 +1,192 @@
+<div class="container-fluid">
+  <div class="mt-4 pt-2">
+    <h1 class="mainHeading pb-0 borderBottomNone">MG</h1>
+
+    <div class="row mt-4 mb-0">
+      <form [formGroup]="searchUsers" (ngSubmit)="findUsers(searchUsers.get('searchText').value,searchUsers.get('startDate').value,searchUsers.get('endDate').value)"
+            class="w-100">
+        <div class="col-md-12">
+          <div class="lightBlueContainer pb-0 pl-4 pr-4 pt-4 mb-4">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+
+                <div class="col-md-7 pr-5">
+                  <mat-form-field>
+                    <input matInput placeholder="Search by User Name, Email ID, Department, Applications & Roles, Activation date " formControlName="searchText"
+                           (keydown.backspace)="checkIsInputCleared()">
+                  </mat-form-field>
+                </div>
+
+                  <div class="col-md-2 pl-0">
+                    <mat-form-field class="width80percent">
+                      <span matPrefix>From &nbsp;</span>
+                      <mat-datepicker-toggle matSuffix [for]="startdate">
+                        <mat-icon matDatepickerToggleIcon>
+                          <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </mat-icon>
+                      </mat-datepicker-toggle>
+                      <input matInput [matDatepicker]="startdate" placeholder="DD-MMM-YY" formControlName="startDate">
+                      <mat-datepicker #startdate></mat-datepicker>
+                    </mat-form-field>
+                    <span class="btn transparent-circle smallDeleteIcon ml-1" title="Delete">
+                      <i class="fa fa-times-thin" aria-hidden="true" (click)="checkIsFromDateCleared();"></i>
+                    </span>
+                  </div>
+
+                  <div class="col-md-2 pr-4">
+                    <mat-form-field class="width80percent">
+                      <span matPrefix>To &nbsp;</span>
+                      <mat-datepicker-toggle matSuffix [for]="enddate">
+                        <mat-icon matDatepickerToggleIcon>
+                          <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </mat-icon>
+                      </mat-datepicker-toggle>
+                      <input matInput [matDatepicker]="enddate" placeholder="DD-MMM-YY" formControlName="endDate" [min]="searchUsers.get('startDate').value">
+                      <mat-datepicker #enddate></mat-datepicker>
+                    </mat-form-field>
+                    <span class="btn transparent-circle smallDeleteIcon ml-1" title="Delete">
+                      <i class="fa fa-times-thin" aria-hidden="true" (click)="checkIsToDateCleared();"></i>
+                    </span>
+                  </div>
+
+                  <div class="col-md-1 top10px controlButtons">
+                    <button title="Search" type="submit" class="genericButton genericSmallButton activeButton mat-primary" mat-raised-button>Search</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="row">
+      <div class="col-md-12 pt-4 mt-2 pb-3 mb-1 controlButtons">
+        <button title="Create New MG User" type="submit" class="btn defaultButton genericButton genericSmallButton" mat-raised-button
+                (click)="createMgUser()">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i><span>Create New MG User</span>
+        </button>
+      </div>
+    </div>
+    <mat-table #table [dataSource]='!isSearch ? dataSource: filteredData' matSort (matSortChange)="sortData($event)" matSortActive="activationDate" matSortDirection="desc" class="flexNone genericTable mb-4 pb-1 mat-table">
+
+      <ng-container matColumnDef="firstName">
+        <mat-header-cell class="firstnameTH alignItemCenter pr-0" *matHeaderCellDef mat-sort-header> First/Last Name </mat-header-cell>
+        <mat-cell class="firstnameTH" *matCellDef="let element"><div class="d-flex"><div><mat-icon class="userIcon alignItemCenter">account_circle</mat-icon></div><span class="pl-1 alignItemCenter">{{element.firstName}} {{element.lastName}}</span></div></mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="employeeId">
+        <mat-header-cell class="empIDTH" *matHeaderCellDef mat-sort-header> Employee ID </mat-header-cell>
+        <mat-cell class="empIDTH" *matCellDef="let element"> {{element.employeeId}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <mat-header-cell class="emailTH" *matHeaderCellDef mat-sort-header> Email ID </mat-header-cell>
+        <mat-cell class="emailTH" *matCellDef="let element"> {{element.email}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="departments">
+        <mat-header-cell class="departmentTH pl-0 pr-0" *matHeaderCellDef mat-sort-header> Department(s) </mat-header-cell>
+        <mat-cell class="departmentTH pl-0 pr-0" *matCellDef="let element">
+          <ng-container *ngFor="let c of element.departments">
+            <ng-container *ngIf="element.departments[0].name == c.name && element.departments.length == 1 ">
+              {{c.name}}
+            </ng-container>
+            <ng-container *ngIf="element.departments[0].name == c.name && element.departments.length > 1 ">
+              {{c.name}}<span>,</span>
+            </ng-container>
+            <ng-container *ngIf="element.departments[0].name != c.name">
+              {{c.name}}
+            </ng-container>
+          </ng-container>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="userApplicationRole">
+        <mat-header-cell class="applicationRoleTH" *matHeaderCellDef mat-sort-header>
+          <span class="text-center"><span class="d-block float-left">Application(s)</span><span class="d-block float-left">&amp; Role(s)</span></span>
+        </mat-header-cell>
+        <mat-cell class="applicationRoleTH" *matCellDef="let element">
+          <ng-container *ngFor="let c of element.userApplicationRole">
+            <span class="d-block">{{c.applicationName}} - {{c.roleName}}</span>
+          </ng-container>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="activationDate">
+        <mat-header-cell class="activationTH" *matHeaderCellDef mat-sort-header>
+          <div>Activation/<div>Inactivation Date</div></div>
+        </mat-header-cell>
+        <mat-cell class="activationTH" *matCellDef="let element">
+          <span class="d-block">{{element.activationDate | date : "dd-MMM-yy"}}<span *ngIf="!element.isActive && element.deActivationDate != null">/</span></span>
+          <ng-container *ngIf="!element.isActive && element.deActivationDate != null ">
+            {{element.deActivationDate | date : "dd-MMM-yy"}}
+          </ng-container>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="isActive">
+        <mat-header-cell class="userStatusTH noOutlineOnFocus" *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+        <mat-cell class="userStatusTH" *matCellDef="let element">
+          <ng-container *ngIf="element.isActive">
+            <i class="fa fa-circle active_status" aria-hidden="true"></i>Active
+          </ng-container>
+          <ng-container *ngIf="!element.isActive">
+            <ng-container *ngIf="element.inActivationType === 'P' ">
+              <i class="fa fa-circle deactivate_status" aria-hidden="true"></i>Inactive
+            </ng-container>
+            <ng-container *ngIf="element.inActivationType === 'T'">
+            <i class="fa fa-circle inactive_status" aria-hidden="true"></i>Inactive
+              <div class="tooltipCustom">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                <div class="tooltiptext">
+                  <div class="pl-4 ml-2 pt-3 mt-1">
+                    <h6 class="mavenProMedium blackText">Temporary Inactivate:</h6>
+                    <span class="d-block pt-1 pb-1">Inactive From: {{element.temporaryInActivationDate | date : "dd-MMM-yy"}}</span>
+                    <span>Inactive To <span class="pl-2 ml-1">: {{element.temporaryActivationDate | date : "dd-MMM-yy"}}</span></span>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" class="text-center">
+        <mat-header-cell class="userActionTH noOutlineOnFocus" *matHeaderCellDef mat-sort-header> </mat-header-cell>
+        <mat-cell class="placeholderColorGray userActionTH" *matCellDef="let element">
+          <mat-select placeholder="Actions" name="Actions" [(ngModel)]="actions">
+            <ng-container *ngIf="element.isActive || element.inActivationType == 'T'">
+              <mat-option value="{{element.id}}:edit" #edit (click)="goUserUpdate(edit.value)">Edit</mat-option>
+            </ng-container>
+            <mat-option value="{{element.id}}:delete" #delete (click)="goUserDelete(delete.value)">Delete</mat-option>
+          </mat-select>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+    <div style="color:orange" *ngIf="noDataAvailable">
+      No Users are created.
+    </div>
+    <div style="color:orange" *ngIf="noRecordsFound">
+      No MG user record found.
+    </div>
+    <div class="paginationWrapper">
+      <span class="pageCount" *ngIf="!noDataAvailable">
+        Page: {{(pageEvent) ? pageEvent.pageIndex + 1 : 1}} of {{
+(pageEvent) ? Math.ceil(pageEvent.length/pageEvent.pageSize)
+      : Math.ceil(totalRecords/20)
+        }}
+      </span>
+
+      <mat-paginator *ngIf="!noDataAvailable" class="genericPagination" (page)="pageEvent = $event" #paginator [pageSize]="20"
+                     [pageSizeOptions]="[5, 10, 20]">
+      </mat-paginator>
+    </div>
+  </div>
+  </div>
+

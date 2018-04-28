@@ -1,0 +1,210 @@
+<div class="paddingRight15px">
+<div class="customBreadcrumb mb-4"><span>Policies </span><span>&gt; Create New Policy</span></div>
+<h1 class="mainHeading">{{policyHeaderName}}</h1>
+<form [formGroup]='cancellationPolicyForm'>
+  <div class="row">
+    <div class="col-md-9">
+      <div class="formSections pt-4">
+          <div class="row pb-0 mb-4">
+            <div class="col-md-12 pt-0 pb-3">
+              <div class="alignItemCenter">
+              <span>Policy Status</span>
+              <div class="form-group hotelStatus ml-2">
+                <div class="form-check form-check-inline">
+                  <mat-checkbox formControlName ='isActive' checked="true" (change)="flagCancellationPolicyAsEdited()">Active</mat-checkbox>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-5 col-lg-5">
+              <mat-form-field class="example-full-width">
+              <input matInput formControlName ='name' placeholder="What is the name of your policy?" 
+                     id="name" (change)='checkPolicyName()' (change)="flagCancellationPolicyAsEdited()" required/>              
+              </mat-form-field>              
+              <span class="nameNote">This name is just of you. Not displayed to Customers</span>
+              <span *ngIf="checkNameFlag" class="d-block mt-2">
+                <mat-error>Policy already exists with this name</mat-error>
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <h2 class="pt-4 pb-3">Cancellation Preference</h2>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-8">
+                  <mat-radio-group class="w-100 d-flex" formControlName="cancellationPolicyTypeId">
+                    <ng-container *ngFor='let policytype of cancellationClauseType'>
+                     <mat-radio-button class="maxWidth155px" [value]="policytype.cancellationPolicyTypeId" (change)='changeClauseType($event);flagCancellationPolicyAsEdited()'>{{policytype.name}}</mat-radio-button>
+                    </ng-container>
+                  </mat-radio-group>
+                </div>
+              </div>
+              <div *ngIf='clauseTypeId == 2' formGroupName='cancellationPolicyClausesViewModelList' class="lightBlueContainer pt-3 pb-3 pl-3 pr-3 mt-2">
+                <h6 class="pl-2 h6">Specify condition(s)</h6>
+                <div class="row pl-2 pb-2" >
+                  <div class="col-md-5 p-0">
+                    <mat-radio-group class="w-100 d-flex pt-2 flexibleOptions" formControlName="cancellationClauseChargeId">
+                        <ng-container *ngFor='let chargetype of cancellationClauseCharges'>
+                          <mat-radio-button class="col-md-6 maxWidth155px" [value]="chargetype.cancellationChargesId" (change)='flagCancellationPolicyAsEdited()' >{{chargetype.name}}</mat-radio-button>
+                        </ng-container>
+                      </mat-radio-group>
+                    </div>
+                </div>
+                <div class="row m-0 specifyOptions pt-2">
+                    <div formArrayName='policyClausesList'
+                          *ngFor='let pref of policyClausesList.controls;let i=index' class="col-md-11 pl-2 pr-0 alignItemCenter">
+                      <div [formGroupName]='i' class="row">
+                        <div class="col-md-10 alignItemCenter pr-0">
+                          <div class="row">
+                          <div class="col-md-2 minWidth75px">
+                            <mat-form-field >
+                              <input type="number" matInput formControlName='daysBeforeArrival' pattern="\d+" min="1" max="366" 
+                                (focus)='daysListIndex($event.target.value)' 
+                                (change)='checkDaysRange();checkUniqueDays($event.target.value);flagCancellationPolicyClauseAsEdited(i)'
+                                />
+                              <!-- <input type="number" matInput formControlName='daysBeforeArrival' pattern="\d+" min="1" max="366" (focusout)="checkDaysRange()" (change)='flagCancellationPolicyClauseAsEdited(i)'/> -->
+                            </mat-form-field>               
+                            
+                          </div>
+                          <div class="col-md-7 pl-0 pr-0 text-center pt-2">
+                            Day(s) before arrival, cancellation fees is
+                          </div>
+                          <div class="col-md-2 minWidth75px">
+                            <mat-form-field>
+                              <input type="number" matInput formControlName='percentageCharge'  min="1" max="100" (focus)='percentageListIndex($event.target.value)' (change)='checkPercentageRange();checkUniquePercentage($event.target.value);flagCancellationPolicyClauseAsEdited(i)'/>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-1">%</div>   
+                        </div>                   
+                          <!-- <div class="pl-0 col-md-1 d-flex">
+                              <span class="btn transparent-circle mr-2" title="Add" (click)="addCancellationPolicyClause()"><span></span></span>
+                            <ng-container *ngIf='i > 0'>
+                              <span class="btn transparent-circle" title="Delete" (click)="deleteCancellationPreference(i)"><i aria-hidden="true" class="fa fa-times-thin"></i></span>
+                            </ng-container>
+                          </div>  -->                     
+                        </div>
+                        <div class="col-md-2 text-right p-0">
+                          <ng-container *ngIf='i > 0'>
+                            <span class="btn transparent-circle" title="Delete" (click)="deleteCancellationPreference(i)"><i aria-hidden="true" class="fa fa-times-thin"></i></span>
+                          </ng-container>
+                        </div>                     
+                      </div>
+                    </div>
+                    <div class="col-md-1 pt-3 pl-0 maxWidth50px">
+                      <div class="pl-0 col-md-1 d-flex"></div>
+                        <span class="btn transparent-circle mr-2" title="Add" (click)="addCancellationPolicyClause()"><span></span></span>
+                    </div>                    
+                 </div>             
+            </div>
+          </div>
+        </div>
+        <span *ngIf="daysFlag" class="d-block mt-2">
+          <mat-error>Cant have same or greater days for multiple rules</mat-error>
+        </span>
+        <span *ngIf="percentageFlag" class="d-block mt-2">
+          <mat-error>Cant have same or lesser % value for less days</mat-error>
+        </span>        
+      </div>
+     
+      <div class="row formSections">
+        <div class="col-md-12 col-lg-12">
+          <div class="row">
+            <div class="col-md-12">
+              <h2>No Show</h2>
+              <h6 class="h6 pb-3 pt-3 darkGreyText">Is there any charges for no show?</h6>
+              <div >
+                <mat-button-toggle-group formControlName="isNoShowCharges" (change)='changeNoShowToggle($event);flagCancellationPolicyAsEdited()'>
+                  <mat-button-toggle [value]="true"> Yes </mat-button-toggle>
+                  <mat-button-toggle [value]="false"> No </mat-button-toggle>
+                </mat-button-toggle-group>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-5">
+              <div *ngIf='noShowToggle == true'>
+                <mat-radio-group class="w-100 d-flex pt-3" formControlName="noShowCancellationChargesId">
+                  <ng-container *ngFor='let chargetype of cancellationClauseCharges'>
+                    <mat-radio-button [value]="chargetype.cancellationChargesId" (change)="flagCancellationPolicyAsEdited()">{{chargetype.name}}</mat-radio-button>
+                  </ng-container>
+                </mat-radio-group>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="col-md-3 pt-4" >
+    <div class="reviewSection pt-4 mt-0">
+      <h2 class="pb-2 pt-1 mb-2">Review Policy</h2>
+        <ng-container *ngIf='!cancellationPolicyForm.valid'>
+            <h6 class="h6 reviewTitle pt-1">Policy Not Setup</h6>
+        </ng-container>
+        <ng-container *ngIf='cancellationPolicyForm.valid || reviewPolicy'>
+            <h6 class="semiBold reviewTitle pt-1">Policy Name</h6>
+            <span class="pb-0">{{cancellationPolicyForm.get('name').value}}</span><hr>
+            <h6 class="semiBold reviewTitle pt-1">Cancellation Policy</h6>
+            <div>
+              <span *ngIf="cancellationPolicyForm.get('cancellationPolicyTypeId').value === 1">
+                The amount is Non-refundable.
+              </span>
+              <span *ngIf="cancellationPolicyForm.get('cancellationPolicyTypeId').value === 2">
+                <table>
+                    <tr *ngFor='let clause of policyClausesList.value' class="d-block mb-2">
+                      <td>
+                        <span *ngIf='clause.percentageCharge!= null && clause.daysBeforeArrival != null;else clauseSelection'>
+                          The guest will be charged {{clause.percentageCharge}} % of  
+                          <span *ngIf = "cancellationPolicyForm.controls.cancellationPolicyClausesViewModelList['value'].cancellationClauseChargeId === 1">Full Amount</span>
+                          <span *ngIf = "cancellationPolicyForm.controls.cancellationPolicyClausesViewModelList['value'].cancellationClauseChargeId === 2">First Night</span>
+                          if they cancel {{clause.daysBeforeArrival}} Day(s) before arrival.
+                        </span>
+                        <ng-template #clauseSelection>
+                          <b><i>Cancellation preference clause not selected.</i></b>
+                        </ng-template>
+                      </td>
+                    </tr>
+                  </table>
+                 
+              </span>
+              <span *ngIf="cancellationPolicyForm.get('cancellationPolicyTypeId').value === 3">
+                The cancellation policy clause is General.
+              </span>             
+              
+            </div><hr>
+            <h6 class="semiBold reviewTitle pt-1">No Show Policy</h6>
+            <span class="pb-0" *ngIf="cancellationPolicyForm.get('isNoShowCharges').value === false;else noShowChargeTrue">
+              The guest will not be charged.
+            </span>
+            <ng-template #noShowChargeTrue class="pb-4">
+                The guest will be charged the 
+                <span *ngIf="cancellationPolicyForm.get('noShowCancellationChargesId').value === 1;else noShowChargeSelection">
+                  Full Amount
+                </span>
+                <ng-template #noShowChargeSelection>
+                  First Night
+                </ng-template>
+                if they do not show up.
+            </ng-template>            
+        </ng-container>     
+      </div>
+    </div>
+  </div>
+  <div class="row">
+		<div class="col-md-12 controlButtons paddingTop50px pb-4 mb-1">
+      <button type="submit" (click)='saveCancellationPolicy()' title="Save" class="genericButton activeButton mat-raised-button mat-primary"  
+        mat-raised-button [disabled]='(!this.cancellationPolicyForm.valid || !this.cancellationPolicyForm.dirty || reviewPolicy || checkNameFlag || daysFlag || percentageFlag )'>
+        Save
+      </button>
+			<button type="submit" (click)='cancelPolicy()' class="genericButton defaultButton" mat-raised-button>
+        Cancel
+      </button>
+		</div>
+	</div>
+	</form>
+</div>

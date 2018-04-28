@@ -1,0 +1,60 @@
+<h1 class="mainHeading mb-4">Photos</h1>
+
+<div class="row mr-0">
+  <div class="col-md-7">
+    <h2 class="pb-3 pt-2 topSpace">Property Photos</h2>
+  </div>
+  <div class="col-md-5 text-right controlButtons mt-2 pr-0" *ngIf="operation === edit">
+    <button class="defaultButton genericButton genericSmallButton mat-raised-button float-right" mat-raised-button title="Add New Photo"
+      (click)="openPhotoModal(null, null, create)">  <!-- (roomId, photoId, operation) -->
+      <i class="fa fa-plus-circle" aria-hidden="true"></i>
+      <span>Add New Photo</span>
+    </button>
+  </div>
+</div>
+
+<div class="row pb-5">
+  <div class="col-md-12 d-flex p-0">
+    <div class="row m-0 photosContainer">
+      <div class="col-md-3 mb-4">
+        <div class="image-container">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- <div>
+    <div class="main-photo">
+      <span id="main-photo-text">Main Photo</span>
+    </div>
+  </div> -->
+<!-- ******************************** Roomwise photos ********************************* -->
+
+<div class="row" *ngFor="let room of roomList">
+  <div class="col-md-12 pb-5">
+
+    <div class="row borderTop mr-0">
+      <div class="col-md-7">
+        <h2 class="pb-3 topSpace">{{room.roomName | titlecase}}</h2>
+      </div>
+      <div class="col-md-5 text-right controlButtons pt-4 mt-2 pr-0" *ngIf="operation === edit">
+        <button class="defaultButton genericButton genericSmallButton mat-raised-button float-right" mat-raised-button title="Add New Photo"
+          (click)="openPhotoModal(room.roomId, null, create)">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          <span>Add New Photo</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="row pb-4">
+      <div class="col-md-12 d-flex p-0">
+        <div class="row m-0 photosContainer">
+          <div class="col-md-3 mb-4">
+            <div class="image-container">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+

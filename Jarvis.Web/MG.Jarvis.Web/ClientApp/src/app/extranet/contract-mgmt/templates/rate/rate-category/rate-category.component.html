@@ -1,0 +1,51 @@
+<div class="container-fluid">
+  <div class="mt-5">
+    <h2 class="mainHeading mb-4">Create New Rate Category</h2>
+    <div class="formSections pb-3  paddingLeft30px pt-0">
+      <div class="form-group col-md-12 p-0">
+          <h2 class="pb-3">Contract type</h2>
+          <mat-radio-group class="disableFields row">
+              <div class="col-md-1">
+                <mat-radio-button value="1" disabled="true">Static</mat-radio-button>
+              </div>
+              <div class="col-md-3">
+                <mat-radio-button value="2" disabled="true">Dynamic</mat-radio-button>
+              </div>
+          </mat-radio-group>
+      </div>
+      <div class="row">
+          <div class="col-md-4">
+          <mat-form-field disabled class="disableFields ">
+            <input matInput placeholder="Name of your rate category? *"  required disabled/>
+          </mat-form-field>
+          <span class="mb-3 d-block nameNote">This name is just of you. Not displayed to Customers</span>
+        </div>
+  </div>
+    </div>
+
+
+    <div class="formSections pb-3 paddingLeft30px">
+      <h2>Which room types?</h2>
+    </div>
+
+    <div class="formSections pb-3 paddingLeft30px">
+      <h2>Which cancellation policy?</h2>
+    </div>
+
+    <div class="formSections pb-3 paddingLeft30px">
+      <h2>Which meal types?</h2>
+    </div>
+
+    <div class="formSections pb-3 borderBottomNone paddingLeft30px">
+      <h2>Which market?</h2>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mt-5 controlButtons mb-4">
+        <button class="genericButton activeButton mat-primary mat-raised-button" title="Save" (click)="saveRateCategory()">Save</button>
+        <button class="genericButton defaultButton mat-raised-button" mat-raised-button title="Cancel" (click)="backToList()">Cancel</button>
+        <button class="genericButton activeButton mat-primary mat-raised-button float-right" title="Continue" (click)="saveAndContinueRateCategory()">Save &amp; Continue</button>
+      </div>
+    </div>
+</div>
+</div>

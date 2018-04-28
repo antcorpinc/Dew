@@ -1,0 +1,276 @@
+<div class="container-fluid pl-0">
+    <h1 class="mainHeading mb-4 customBreadcrumb">Allocations</h1>
+    <div *ngIf="!isDataLoaded && !noDataAvailable" class="showSpinner">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div [formGroup]="contractTypeForm">
+        <div class="row">
+            <div class="text-center col-md-12 pb-4 mb-2">
+                <mat-button-toggle-group formControlName="contractType" class="allocationState" #group="matButtonToggleGroup">
+                    <mat-button-toggle [value]="'Static'" (click)="getDates('Static')">
+                        Static
+                    </mat-button-toggle>
+                    <mat-button-toggle [value]="'Dynamic'" (click)="getDates('Dynamic')">
+                        Dynamic
+                    </mat-button-toggle>
+                    <mat-button-toggle [value]="'ChannelManager'" (click)="getDates('ChannelManager')">
+                        Channel Manager
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+                <span class="controlButtons float-right mt-1">
+                    <button mat-raised-button class="genericButton activeButton mat-primary mat-raised-button genericSmallButton" title="Bulk Update" (click)="bulkUpdateDialog(hotelId)">Bulk Update</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div style="color:orange" *ngIf="noDataAvailable">
+        No {{contractTypeForm.get('contractType').value}} Allocations Present for this Property.
+    </div>
+
+    <div *ngIf="isDataLoaded && !noDataAvailable">
+        <form [formGroup]="allocationsForm">
+            <div class="row allocationStatus text-center pb-2">
+                <div class="col-md-12 justify-content-center alignItemCenter">
+
+                    <div class="mr-2 circle-checked">
+                        <span class="checkmark"></span>
+                    </div>
+                    <span class="allocationStatusTxt">Bookable</span>
+                    <div class="ml-4 mr-2 restrictedStatus">
+                        <span class="asteriskIcon">*</span>
+                    </div>
+                    <span class="allocationStatusTxt">Bookable with Restrictions</span>
+                    <div class="ml-4 mr-2 notAvailableStatus">
+                        <i class="fa fa-exclamation"></i>
+                    </div>
+                    <span class="allocationStatusTxt">Not available and / or has no Price</span>
+                    <div class="ml-4 mr-2 closedStatus">
+                        <i class="fa fa-times-thin"></i>
+                    </div>
+                    <span class="allocationStatusTxt">Black Out</span>
+                    <div class="ml-4 mr-2 soldOutStatus">
+                        <i class="fa fa-key"></i>
+                    </div>
+                    <span class="allocationStatusTxt">Sold Out</span>
+
+
+                </div>
+            </div>
+
+
+            <div class="row alignItemCenter">
+                <div class="col-md-12">
+                    <div class="row  allocationDates">
+                        <div class="col-md-2">
+                            <i class="fa fa-caret-left" aria-hidden="true" (click)="getBackwardDates()" title="Previous"></i>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div [formGroup]="allocationsDateRangeForm" class="row justify-content-center controlButtons">
+                                <div class="col-md-3 text-center pr-0">
+                                    <label class="optionsList mb-0">Custom Date From</label>
+                                </div>
+                                <div class="col-md-3 pl-0 pr-0">
+                                    <mat-form-field class="width80percent">
+                                        <input matInput formControlName="startDate" [matDatepicker]="startdate" [min]="minDate" [max]="allocationsDateRangeForm.get('endDate').value"
+                                            (dateChange)="setMaxDate()">
+                                        <mat-datepicker-toggle matSuffix [for]="startdate">
+                                            <mat-icon matDatepickerToggleIcon>
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </mat-icon>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #startdate></mat-datepicker>
+                                    </mat-form-field>
+                                    <span class="btn transparent-circle smallDeleteIcon ml-1 p-0" title="Delete">
+                                        <i aria-hidden="true" class="fa fa-times-thin" (click)="allocationsDateRangeForm.get('startDate').setValue(null)"></i>
+                                    </span>
+                                </div>
+                                <div class="col-md-1 pr-3 text-right maxWidth50px">
+                                    <label class="optionsList mb-0">To</label>
+                                </div>
+                                <div class="col-md-3 pl-0 pr-0">
+                                    <mat-form-field class="width80percent">
+                                        <input matInput formControlName="endDate" [matDatepicker]="endDate" [min]="allocationsDateRangeForm.get('startDate').value || todaysDate"
+                                            [max]="(allocationsDateRangeForm.get('startDate').value === null) ? (maxDate) : maxDate1">
+                                        <mat-datepicker-toggle matSuffix [for]="endDate">
+                                            <mat-icon matDatepickerToggleIcon>
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </mat-icon>
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #endDate></mat-datepicker>
+                                    </mat-form-field>
+                                    <span class="btn transparent-circle smallDeleteIcon ml-1 p-0" title="Delete">
+                                        <i aria-hidden="true" class="fa fa-times-thin" (click)="allocationsDateRangeForm.get('endDate').setValue(null)"></i>
+                                    </span>
+                                </div>
+                                <button type="button" (click)="getDates()" mat-raised-button class="genericButton activeButton mat-primary mat-raised-button genericSmallButton"
+                                    click="" title="Apply">Apply</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 text-right">
+                            <i class="fa fa-caret-right" aria-hidden="true" (click)="getForwardDates()" title="Next"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mt-3 allocationsExpansionPanel allocationStatus">
+                        <table class="table genericTable">
+                            <div class="scrollIt">
+                                <tbody>
+                                    <tr formArrayName="rooms" *ngFor="let room of rooms.controls; let i=index" class="borderBottom5px">
+                                        <td [formGroupName]="i" colspan="17" class="p-0">
+                                            <mat-expansion-panel class="expandCollapseContainer" expanded='true'>
+                                                <mat-expansion-panel-header class="panelHeader">
+                                                    <mat-panel-title class="blueBackground p-2">
+                                                        <h6>
+                                                            <span class="caretWrapper">
+                                                                <i class="fa fa-caret-up d-none" aria-hidden="true"></i>
+                                                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                            </span>{{allocationsArray.rooms[i].roomName}}</h6>
+                                                    </mat-panel-title>
+                                                </mat-expansion-panel-header>
+                                                <div class="deviderBorder"></div>
+                                                <tr>
+                                                    <th>&nbsp;</th>
+                                                    <th *ngFor="let dateData of(isDateApplied ? appliedDateArray : dateArray)" [ngClass]="{'darkBackground': (dateData.isWeekend)}">
+                                                        <b>{{dateData.date}}</b>
+                                                    </th>
+                                                </tr>
+                                                <tr class="backgroundNone">
+                                                    <td class="align-middle">
+                                                        <h5 class="h5 semiboldText">Rooms to sell</h5>
+                                                    </td>
+                                                    <td formArrayName="roomsSold" *ngFor="let rate of getRoomSoldArray(i).controls; let j=index" class="roomSold">
+                                                        <ng-container [formGroupName]="j">
+                                                            <mat-form-field>
+                                                                <input formControlName="roomsSold" matInput [value]="allocationsArray.rooms[i].roomsSold[j].roomsold" class="text-center">
+                                                            </mat-form-field>
+                                                            <span>/ {{allocationsArray.rooms[i].roomsSold[j].roomsold}}</span>
+                                                        </ng-container>
+                                                    </td>
+                                                </tr>
+                                                <ng-container formArrayName="rateCategory" *ngFor="let rate of getRateCategoryArray(i).controls; let j=index">
+                                                    <ng-container [formGroupName]="j">
+                                                        <tr class="lightBlueBackground">
+                                                            <td class="position-relative subHierarchy lightBlueBackground" (click)="allocationsArray.rooms[i].rateCategory[j].isExpanded = !allocationsArray.rooms[i].rateCategory[j].isExpanded">
+                                                                <label class="optionsList mb-0">{{allocationsArray.rooms[i].rateCategory[j].rateCategoryName}}</label>
+                                                                <span class="upDownHeirarchy">
+                                                                    <i class="fa" [ngClass]="{'fa-angle-down': (!allocationsArray.rooms[i].rateCategory[j].isExpanded),
+                                                'fa-angle-up': (allocationsArray.rooms[i].rateCategory[j].isExpanded) }"
+                                                                        aria-hidden="true"></i>
+                                                                </span>
+                                                            </td>
+                                                            <td formArrayName="status" *ngFor="let rate of getStatusArray(i,j).controls; let k=index">
+                                                                <ng-container [formGroupName]="k">
+                                                                    <div class="ml-3 circle-checked" *ngIf="allocationsArray.rooms[i].rateCategory[j].status[k].bookingStatus === 'Bookable'">
+                                                                        <span class="checkmark alignItemCenter"></span>
+                                                                    </div>
+                                                                    <div class="ml-4 mr-2 restrictedStatus" *ngIf="allocationsArray.rooms[i].rateCategory[j].status[k].bookingStatus === 'BookableWith Restrictions'">
+                                                                        <span class="asteriskIcon tooltipCustom genericTooltip">*
+                                                                            <span class="tooltiptext">
+                                                                                <div class="modalHeading mb-4 pb-2">
+                                                                                    <span class="modalHeader">Restrictions</span>
+                                                                                </div>
+                                                                                <p>Minimum Length of Stay: 2 days</p>
+                                                                                <div class="row pt-2">
+                                                                                    <div class="col-md-6">
+                                                                                        Close for Arrival:
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <p class="mb-0">From: 01-Aug-2018</p>
+                                                                                        <p class="mb-0">To: 16-Aug-2018</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row mt-4 pt-2">
+                                                                                    <div class="col-md-6">
+                                                                                        Close for Departure:
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <p class="mb-0">From: 01-Aug-2018</p>
+                                                                                        <p class="mb-0">To: 16-Aug-2018</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="ml-4 mr-2 soldOutStatus" *ngIf="allocationsArray.rooms[i].rateCategory[j].status[k].bookingStatus === 'SoldOut'">
+                                                                        <i class="fa fa-key"></i>
+                                                                    </div>
+                                                                    <div class="ml-4 mr-2 notAvailableStatus" *ngIf="allocationsArray.rooms[i].rateCategory[j].status[k].bookingStatus === 'NotAvailable'">
+                                                                        <i class="fa fa-exclamation"></i>
+                                                                    </div>
+                                                                    <div class="ml-4 mr-2 closedStatus" *ngIf="allocationsArray.rooms[i].rateCategory[j].status[k].bookingStatus === 'Closed'">
+                                                                        <i class="fa fa-times-thin"></i>
+                                                                    </div>
+                                                                </ng-container>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr class="lightBlueBackground noPadding">
+                                                            <td class="lightBlueBackground">
+                                                                <label class="optionsList mb-0">Rooms to sell</label>
+                                                            </td>
+                                                            <td formArrayName="roomsToSell" *ngFor="let rate of getRoomToSellArray(i,j).controls; let k=index">
+                                                                <ng-container [formGroupName]="k">
+                                                                    <mat-form-field>
+                                                                        <input matInput formControlName="roomToSell" [value]="allocationsArray.rooms[i].rateCategory[j].roomsToSell[k].roomToSell"
+                                                                            class="text-center">
+                                                                    </mat-form-field>
+                                                                </ng-container>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr formArrayName="occupancy" *ngFor="let rate of getOccupancyArray(i,j).controls; let k=index">
+                                                            <ng-container [formGroupName]="k">
+                                                                <ng-container *ngIf="allocationsArray.rooms[i].rateCategory[j].isExpanded">
+                                                                    <td>
+                                                                        <h6 class="checkAll mb-0">{{allocationsArray.rooms[i].rateCategory[j].occupancy[k].occupancyName}}</h6>
+                                                                    </td>
+                                                                    <td formArrayName="occupancyPrice" *ngFor="let rate of getOccupancyPriceArray(i,j,k).controls; let l=index">
+                                                                        <ng-container [formGroupName]="l">
+                                                                            <mat-form-field>
+                                                                                <input matInput formControlName="price" #price pattern="[0-9]*" min="0" [value]="allocationsArray.rooms[i].rateCategory[j].occupancy[k].occupancyPrice[l].price"
+                                                                                    class="text-center">
+                                                                                <span class="copyIcon">
+                                                                                    <a style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="Copy Content">
+                                                                                        <i class="fa fa-clone" (click)="copy(price.value,i,j,k,l)" aria-hidden="true"></i>
+                                                                                    </a>
+                                                                                </span>
+                                                                            </mat-form-field>
+                                                                        </ng-container>
+                                                                    </td>
+                                                                </ng-container>
+                                                            </ng-container>
+                                                        </tr>
+                                                        <tr *ngIf="allocationsArray.rooms[i].rateCategory[j].isExpanded" class="text-right">
+                                                            <td colspan="17" style="position:relative;">
+                                                                <div class="controlButtons">
+                                                                    <button class="genericButton activeButton mat-raised-button p-2 mr-2 mat-primary" mat-raised-button title="Save" type="submit">Save</button>
+                                                                    <button class="genericButton defaultButton p-2" (click)="reset(i,j)" mat-raised-button title="Reset" type="button">Reset</button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </mat-expansion-panel>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </div>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+<!-- <p>Form value {{ allocationsForm.value | json }} </p>
+<p> Form status {{ allocationsForm.status | json}} </p> -->

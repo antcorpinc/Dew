@@ -1,0 +1,40 @@
+<div class="container-fluid pt-4">
+  <div class="customBreadcrumb mb-4">
+    <span>Hotel/Supplier </span>
+    <span *ngIf="operation == 'create'">&gt;  Create New Hotel/Supplier User </span>
+    <span *ngIf="operation == 'edit'">&gt;  Edit Hotel/Supplier User </span>
+  </div>
+  <h1 *ngIf="operation == 'create'" class="mainHeading customBreadcrumb borderBottomNone">Create New Hotel/Supplier User<span class="mandatoryInfo">Indicates Mandatory Fields</span></h1>
+  <h1 *ngIf="operation == 'edit'" class="mainHeading mb-4 customBreadcrumb borderBottomNone">Edit Hotel/Supplier User<span class="mandatoryInfo">Indicates Mandatory Fields</span></h1>
+  <form #mgHotelForm="ngForm">
+    <div *ngIf="operation == 'create'" class="row customeRow">
+      <div class="form-group col-md-5 pt-4">
+        <div>
+          <label>Type</label>
+          <mat-radio-group class="d-flex">
+            <mat-radio-button value="1" [routerLink]="['hoteluserinfo',0,create]" routerLinkActive="active">Hotel Chain</mat-radio-button>
+            <mat-radio-button value="2" [routerLink]="['individual',0,create]" routerLinkActive="active">Individual Hotels</mat-radio-button>
+            <mat-radio-button value="3" [routerLink]="['supplieruser',0,create]" routerLinkActive="active">Supplier</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div>
+  <div class="body-style">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+
+<!-- <div>
+  <app-hotel-type-nav-menu [hotelType] = "hoteltype"></app-hotel-type-nav-menu>
+</div>
+<div >
+  <div class="body-style">
+    <router-outlet></router-outlet>
+  </div>
+</div> -->
+

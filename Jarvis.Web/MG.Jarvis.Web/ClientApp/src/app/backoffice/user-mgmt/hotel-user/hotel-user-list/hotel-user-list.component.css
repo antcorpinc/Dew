@@ -1,0 +1,42 @@
+.usernameTH{width:15%;}
+.hotelIDTH{width: 19%;}
+.designationIDTH{width: 10%;}
+.emailTH {
+  width: 14%;
+}
+.applicationRoleTH{width: 10%;}
+.activationTH{width: 15%;}
+.userStatusTH{width: 9%;}
+.userActionTH{width: 9%;}
+.expandHotelDetails {
+  position: absolute;
+  left: 83px;
+  width: 91%;
+  padding: 10px;
+  overflow-y: scroll;
+  height: 87px;
+  margin-top: 42px;
+  border: 1px solid #e0e0e0;
+  background: #fafafa;
+}
+
+.expandHotelDetails span{
+  font-size:13px;
+}
+
+.hotelIDTH a {
+  cursor: pointer;
+  color: #2aaae1;
+  display: block;
+  margin-top: 5px;
+}
+
+.expandHotelTitle {
+  display: block;
+  z-index: 1;
+  position: absolute;
+  left: 84px;
+  width: 94%;
+  padding-top: 16px;
+}
+

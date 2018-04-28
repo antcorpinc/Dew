@@ -1,0 +1,131 @@
+<div class="container-fluid">
+  <form [formGroup]="supplierHotelForm" (ngSubmit)="saveSupplierUserDetails()">
+
+    <div class="row customeRow alignItemCenter">
+      <div class="form-group col-md-4 col-lg-3 mt-2 mb-0 mt-1">
+        <mat-form-field>
+          <mat-select placeholder="Supplier" name="Supplier" formControlName="partnerList" (change)="getHotelsByPartnerId(supplierHotelForm.get('partnerList').value);"
+            required>
+            <mat-option [value]="null"> Select </mat-option>
+            <mat-option *ngFor="let hotel of partnerList" [value]="hotel.hotelChainId">{{hotel.hotelChainName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group col-md-4 col-lg-3 mt-2 mb-0 mt-1">
+        <mat-form-field>
+          <mat-select placeholder="Hotel Name and Code" name="Hotel Name and Code" formControlName="hotelId" (change)="selectAllHotels();" multiple required>
+            <mat-option [value]="null" *ngIf="isPartnerHotelList == true"> All </mat-option>
+            <mat-option *ngFor="let hotelname of partnerHotelList" [value]="hotelname.hotelId">
+              {{hotelname.hotelName}} - {{hotelname.hotelCode}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="row customeRow">
+      <div class="col-md-2 col-lg-1">
+        <div class="userImageSection">
+          <mat-icon class="userImage">account_circle</mat-icon>
+          <div class="image-upload">
+            <label for="file-input">
+              <img src="assets/uploadPhoto.png" title="Upload Image" />
+            </label>
+            <input id="file-input" type="file" />
+          </div>
+          <button class="deletePhoto" mat-raised-button title="Delete Image">
+            <i class="fa fa-times-thin"></i>
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row customeRow">
+      <div class="form-group pt-2 col-md-4 col-lg-3">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="First Name" id="firstName" formControlName="firstName" required />
+        </mat-form-field>
+      </div>
+      <div class="form-group pt-2 col-md-4 col-lg-3">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Last Name" id="lastName" formControlName="lastName" required />
+        </mat-form-field>
+      </div>
+      <div class="form-group pt-2 col-md-4 col-lg-3">
+          <mat-form-field>
+            <mat-select placeholder="Designation" formControlName="designationId" required>
+              <mat-option [value]="null">Select</mat-option>
+              <mat-option *ngFor="let designation of designationList" [value]="designation.designationId">{{designation.title}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+    </div>
+
+
+    <div class="row customeRow">
+      <div class="form-group col-md-4 col-lg-3 mb-0">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Email ID" id="emailID" formControlName="email" pattern="\w+@\w+\.\w+(,\s*\w+@\w+\.\w+)*" required
+          />
+        </mat-form-field>
+      </div>
+      <div class="form-group col-md-4 col-lg-3 mb-0">
+        <mat-form-field>
+          <mat-select placeholder="Role" formControlName="extranetRoleId" required>
+            <mat-option [value]="null">Select</mat-option>
+            <mat-option *ngFor="let role of roleList" [value]="role.id">{{role.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row customeRow">
+      <div class="col-md-4 col-lg-3 mt-3">
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="activationDate" placeholder="Activation Date" formControlName="activationDate" [min]="(operation === create) ?  todaysDate : minDate"
+            required>
+          <mat-datepicker-toggle matSuffix [for]="activationDate">
+            <mat-icon matDatepickerToggleIcon>
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #activationDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="operation == 'edit'">
+      <div class="col-md-4 col-lg-3 mt-3">
+        <div class="form-check form-check-inline">
+          <mat-checkbox formControlName="inActivateUser" [checked]="isChecked" (change)="toggleDeactivationDate($event)">Inactivate User</mat-checkbox>
+        </div>
+      </div>
+    </div>
+
+    <div class="row customeRow" *ngIf="isChecked">
+      <div class="col-md-4 col-lg-3 mt-4 pt-2 mb-0">
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="deActivationDate" placeholder="Inactivation Date" formControlName="deActivationDate" [min]="(operation === edit) ? todaysDate : minDate"
+            [required]="isInactiveDateRequired">
+          <mat-datepicker-toggle matSuffix [for]="deActivationDate">
+            <mat-icon matDatepickerToggleIcon>
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #deActivationDate></mat-datepicker>
+
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 controlButtons pl-3">
+        <button title="Save" type="submit" class="genericButton activeButton mat-primary mr-1" [disabled]="!supplierHotelForm.valid" mat-raised-button>Save</button>
+        <button title="Cancel" type="submit" class="genericButton defaultButton" mat-raised-button (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </form>
+
+</div>

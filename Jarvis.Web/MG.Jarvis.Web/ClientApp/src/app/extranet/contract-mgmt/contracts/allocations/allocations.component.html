@@ -1,0 +1,168 @@
+
+<form [formGroup]="contractAllocationForm">
+<div class="container-fluid">
+    <h1 class="mainHeading mb-4 customBreadcrumb">Allocations</h1>
+    <div class="row ml-0">
+      <div class="col-md-6 maxWidth600px lightBlueContainer pb-2 pl-4 pr-2 pt-3 mb-3">
+        <div class="row">
+          <div class="col-md-9">
+              <mat-form-field>
+                  <input matInput placeholder="Pooled Allotment" formControlName="pooledAllotment"  />
+              </mat-form-field>
+          </div>
+          <div class="col-md-3 pt-1">
+              <button mat-raised-button class="btn addButton float-left" title="Apply" (click)="onPooledApply()" >Apply</button>
+              <button mat-raised-button class="btn addButton float-left" title="Clear" (click)="onPooledClear()" >Clear</button>
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="controlButtons">
+        <button mat-raised-button class="defaultButton mb-3 genericButton genericSmallButton mat-raised-button floar-right" (click)="addAllocationRange()"  title="Create New Individual Allotment">
+            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            <span>Create New Individual Allotment</span>
+        </button>
+    </div>
+    <table class="table genericTable allocationsTable">
+        <thead>
+            <tr>
+                <th class="rateCategoryTH">Rate Category *</th>
+                <th class="roomTypeTH">Room Type *</th>
+                <th class="datesTH">Dates *</th>
+                <th class="daysTH">Days</th>
+                <th class="typeTH">Type *</th>
+                <th class="allotmentTH">Allotment</th>
+                <th class="bedTypeTh">Bed Type & Rates (IDR)</th>
+                <th class="saveBtns"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr formArrayName="rangeAllocation" 
+            *ngFor="let allocation of rangeAllocation.controls; let i=index">
+            <ng-container [formGroupName]="i">
+                <td class="rateCategoryTH border-0">
+                    <mat-form-field>
+                        <mat-select placeholder="Select"  formControlName="rateCategoryId"  required>
+                        <mat-option [value]="rate.id" *ngFor='let rate of rateCategoryList'>{{rate.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field> 
+                </td>
+                <td class="roomTypeTH border-0">
+                    <mat-form-field>
+                      <mat-select placeholder="Select"  formControlName="roomTypeId"  required>
+                          <mat-option [value]="room.id" *ngFor='let room of roomTypeList'>{{room.name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </td>
+                <td class="datesTH border-0">
+                    <div>
+                      <mat-form-field>
+                          <span matPrefix>From &nbsp;</span>
+                          <input matInput [matDatepicker]="fromDate" placeholder="DD-MMM-YY"
+                            formControlName="fromDate"  required>
+                          <mat-datepicker-toggle matSuffix [for]="fromDate">
+                            <mat-icon matDatepickerToggleIcon>
+                              <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </mat-icon>
+                          </mat-datepicker-toggle>
+                          <mat-datepicker #fromDate></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                      <mat-form-field>
+                          <span matPrefix>To &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                          <input matInput [matDatepicker]="toDate" placeholder="DD-MMM-YY"
+                            formControlName="toDate"  required>
+                          <mat-datepicker-toggle matSuffix [for]="toDate">
+                            <mat-icon matDatepickerToggleIcon>
+                              <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </mat-icon>
+                          </mat-datepicker-toggle>
+                          <mat-datepicker #toDate></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </td>
+                <td class="daysTH border-0">
+                    <mat-form-field>
+                      <mat-select placeholder="Select" name="days" formControlName="days" multiple required>
+                      <mat-option [value]="day.id" *ngFor='let day of daysOfWeekList'>{{day.name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </td>
+                <td class="typeTH border-0">
+                    <mat-form-field>
+                      <mat-select placeholder="Select" name="allocationTypeId" formControlName="allocationTypeId" required>
+                        <mat-option [value]="type.id" *ngFor='let type of allotmentTypeList'>{{type.name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </td>
+                <td class="allotmentTH border-0">
+                    <mat-form-field>
+                      <input matInput  formControlName="allotment" id="allotment" required />
+                    </mat-form-field>
+                </td>
+                <td class="bedTypeTh border-0">
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Single" formControlName="singleBed" id="singleBed" required />
+                          </mat-form-field>
+                    </div>
+              
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Double/Twin" formControlName="doubleBed" id="doubleBed" required />
+                          </mat-form-field>
+                    </div>
+              
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Triple" formControlName="tripleBed" id="tripleBed" required />
+                          </mat-form-field>
+                    </div>
+              
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Quad" formControlName="quadBed" id="quadBed" required />
+                          </mat-form-field>
+                    </div>
+              
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="XBed" formControlName="extraBed" id="extraBed" required />
+                          </mat-form-field>
+                    </div>
+              
+                </td>
+                <td class="saveBtns controlButtons border-0">
+                    <button  title="Save" class="genericButton activeButton mat-raised-button mat-primary">Save</button>
+                    <button title="Cancel" class="genericButton defaultButton" >Cancel</button>
+                </td>
+              </ng-container>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+
+        <div >
+            <div >
+              <mat-error *ngIf="contractAllocationForm.get('rangeAllocation').errors 
+              && contractAllocationForm.get('rangeAllocation').errors.ValidateRateCategoryId">
+                This rate category Type already exists.
+              </mat-error>
+             
+            </div>
+          </div>
+    </div>
+</div>
+</form>
+<div class="row mt-5 ml-0 mr-0">
+    <div class="col-md-12 controlButtons mb-4">
+      <button title="Save" class="genericButton activeButton mat-primary mat-raised-button" >Save</button>
+      <button title="Cancel" class="genericButton defaultButton mat-raised-button" mat-raised-button >Cancel</button>
+      <button class="genericButton activeButton mat-primary mat-raised-button float-right" title="Save &amp; Continue" >Save &amp; Continue</button>
+    </div>
+  </div>
+
+

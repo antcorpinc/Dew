@@ -1,0 +1,190 @@
+<div class="container-fluid">
+  <div class="mt-5">
+    <form [formGroup]="roomTypeForm">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="mainHeading pb-2">Create New Room Type</h1>
+        </div>
+      </div>
+
+      <div class="row customeRow mt-4">
+        <div class="inlineGroup  col-md-4 col-lg-3 mb-3">
+          <div class="inlineColumn elementSelection">
+            <mat-checkbox class="d-flex pb-2" *ngIf="roomtypeStatus[0]['isConfigurable']" formControlName="roomtype"></mat-checkbox>
+          </div>
+          <div class="inlineColumn">
+            <mat-form-field class="disableFields">
+              <mat-select placeholder="Room Type" required disabled>
+                <mat-option>Room Type</mat-option>
+                <mat-option>Garden Facing</mat-option>
+                <mat-option>Sea Facing</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="inlineGroup col-md-4 col-lg-3 mb-3">
+          <div class="inlineColumn elementSelection">
+            <mat-checkbox class="d-flex pb-2" *ngIf="roomnameStatus[0]['isConfigurable']" formControlName="roomname"></mat-checkbox>
+          </div>
+          <div class="inlineColumn">
+            <mat-form-field class="disableFields">
+              <input matInput placeholder="Room Name" required disabled />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-3 inlineGroup mb-3">
+          <div class="inlineColumn elementSelection">
+            <mat-checkbox class="d-flex pb-2" *ngIf="roomsizeStatus[0]['isConfigurable']" formControlName="roomsize"></mat-checkbox>
+          </div>
+          <div class="inlineColumn">
+            <div class="row">
+              <div class="col-md-7 pr-0">
+                <mat-form-field class="disableFields">
+                  <input matInput placeholder="Room Size" required disabled>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5 pl-0">
+                <mat-form-field class="disableFields">
+                  <mat-select placeholder="Measure Unit" formControlName="sizeMeasureId" disabled>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="inlineGroup col-md-4 col-lg-3 mb-3">
+          <div class="inlineColumn elementSelection">
+            <mat-checkbox class="d-flex pb-2" *ngIf="totalnumberofroomsStatus[0]['isConfigurable']" formControlName="totalnumberofrooms"></mat-checkbox>
+          </div>
+          <div class="inlineColumn">
+            <mat-form-field class="disableFields">
+              <input matInput placeholder="Number of Rooms " required disabled />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row pb-5 customeRow">
+        <div class="inlineGroup col-md-4 col-lg-3 mb-0">
+          <div class="inlineColumn elementSelection">
+            <mat-checkbox class="d-flex pb-2" *ngIf="isfreesaleStatus[0]['isConfigurable']" formControlName="isfreesale"></mat-checkbox>
+          </div>
+          <div class="inlineColumn">
+            <p for="extranetaccountaccess">Is Free Sale</p>
+            <mat-button-toggle-group class="disableFields disabledToggleBtn">
+              <mat-button-toggle [value]="true" disabled="true">
+                Yes
+              </mat-button-toggle>
+              <mat-button-toggle [value]="false" disabled="true">
+                No
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+        </div>
+
+        <div class="inlineGroup col-md-4  col-lg-3  mb-0">
+          <div class="inlineColumn elementSelection">
+            <mat-checkbox class="d-flex pb-2" *ngIf="smokingroomStatus[0]['isConfigurable']" formControlName="smokingroom"></mat-checkbox>
+          </div>
+          <div class="inlineColumn">
+            <p for="extranetaccountaccess">Smoking</p>
+            <mat-button-toggle-group class="disableFields disabledToggleBtn">
+              <mat-button-toggle [value]="true" disabled="true">
+                Yes
+              </mat-button-toggle>
+              <mat-button-toggle [value]="false" disabled="true">
+                No
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+        </div>
+      </div>
+      <div class="pt-4 formSections pb-4 borderTopDark">
+        <div class="row customeRow mt-3">
+          <div class="col-md-12">
+            <div class="float-left checkBoxDiv">
+              <mat-checkbox *ngIf="roomDescriptionStatus[0]['isConfigurable']" formControlName="roomDescription"></mat-checkbox>
+            </div>
+            <div class="float-left marginLeft10 widthCalculate30">
+              <h2 class="pb-4">Room Description</h2>
+              <mat-form-field class="disableFields">
+                <textarea rows="5" cols="200" maxlength="500" matInput required disabled></textarea>
+              </mat-form-field>
+              <p class="small text-right lightGrey mb-0">Max. 500 characters</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pt-5 borderBottomNone">
+        <div class="row customeRow">
+          <div class="col-md-12">
+            <div class="float-left checkBoxDiv">
+              <mat-checkbox class="d-flex pb-2" *ngIf="bedoptionsStatus[0]['isConfigurable']" formControlName="bedoptions">Bed Options</mat-checkbox>
+            </div>
+            <div class="col-md-12 float-left marginLeft10 widthCalculate30 p-0">
+              <h2 class="pb-4">Bed Options</h2>
+              <div class="row">
+                <div class="form-group col-md-4 col-lg-3 mt-0 mb-0 paddingLeft15px">
+                  <mat-form-field class="disableFields">
+                    <mat-select placeholder="Number of Guests" required disabled>
+                      <mat-option>1</mat-option>
+                      <mat-option>2</mat-option>
+                      <mat-option>3</mat-option>
+                      <mat-option>4</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="mt-4 mb-4 row lightBlueContainer position-relative pb-3 ml-0 mr-0">
+                <div class="col-md-12 pl-3 pr-3">
+                  <div class="row customeRow">
+                    <div class="col-md-12 pb-3">
+                      <h6 class="semiboldText">Standard Arrangement</h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-8 p-0">
+                      <div class="row">
+                        <div class="col-md-5">
+                          <mat-form-field class="disableFields">
+                            <mat-select placeholder="Bed Type available" required disabled>
+                              <mat-option>Select</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-2 icon-multiply"></div>
+                        <div class="col-md-5">
+                          <mat-form-field class="disableFields">
+                            <mat-select placeholder="Number of Beds" required disabled>
+                              <mat-option>1</mat-option>
+                              <mat-option>2</mat-option>
+                              <mat-option>3</mat-option>
+                              <mat-option>4</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 pt-3 pr-3 controlButtons text-right">
+                      <button class="genericButton defaultButton genericSmallButton float-none mat-raised-button" mat-raised-button type="button"
+                        title="Add Another Bed">
+                        Add Another Bed
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="col-md-12 mt-4 controlButtons mb-4">
+        <button class="mr-2 genericButton activeButton mat-primary mat-raised-button" title="Save" type="submit" (click)="saveRoomTypeInfo()">Save</button>
+        <button class="genericButton defaultButton mat-raised-button" mat-raised-button title="Cancel" type="submit" (click)="backToList()">Cancel</button>
+        <button class="genericButton activeButton mat-primary mat-raised-button float-right" title="Continue" type="submit" (click)="saveandContinue()">Save & Continue</button>
+      </div>
+    </form>
+  </div>
+</div>

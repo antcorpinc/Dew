@@ -1,0 +1,85 @@
+<div class="innerPageWrapper">
+<h1 class="mainHeading mb-4">
+  Rate Category</h1>
+<div class="row mb-3 pt-2">
+  <div class="col-md-12 text-right controlButtons">
+         <button [hidden]='isRead' [disabled]="isPolicyExists || isRoomExists" title="Create New Rate Category"  type="button" class="defaultButton genericButton genericSmallButton mat-raised-button" mat-raised-button (click)="createRateCategory()">
+            <i class="fa fa-plus-circle" aria-hidden="true"></i><span>Create New Rate Category</span>
+         </button>         
+  </div>
+</div>
+
+  <mat-table #rateCategoryTable [dataSource]="dataSource" matSort matSortActive="rateCategoryName" matSortDirection="asc" class="genericTable mb-4 flexNone pt-1">
+
+    <ng-container matColumnDef="rateCategoryName">
+      <mat-header-cell class="rateCategoryTh noOutlineOnFocus" *matHeaderCellDef mat-sort-header> Rate Category Name </mat-header-cell>
+      <mat-cell class="rateCategoryTh " *matCellDef="let element"><a [routerLink]="['../ratecategory', element.id, read]"> {{element.name}} </a></mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="contractType">
+      <mat-header-cell class="contractTypeTh noOutlineOnFocus" *matHeaderCellDef mat-sort-header> Contract Type </mat-header-cell>
+      <mat-cell class="contractTypeTh " *matCellDef="let element">
+        <ng-container *ngIf="element.contractType == true">Static </ng-container>
+        <ng-container *ngIf="element.contractType == false">Dynamic </ng-container>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="roomName">
+      <mat-header-cell class="roomNameTh noOutlineOnFocus" *matHeaderCellDef mat-sort-header> Room Name </mat-header-cell>
+      <mat-cell class="roomNameTh" *matCellDef="let element"> {{element.roomTypeName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="cancellationPolicy">
+      <mat-header-cell class="cancellationPolicyTh noOutlineOnFocus" *matHeaderCellDef mat-sort-header> Cancellation Policy </mat-header-cell>
+      <mat-cell class="cancellationPolicyTh" *matCellDef="let element">{{element.cancellationPolicyName}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="mealPlan">
+      <mat-header-cell class="mealPlanTh noOutlineOnFocus" *matHeaderCellDef mat-sort-header> Meal Plan </mat-header-cell>
+      <mat-cell class="mealPlanTh" *matCellDef="let element"> {{element.mealPlanName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="market">
+      <mat-header-cell class="marketTh noOutlineOnFocus" *matHeaderCellDef mat-sort-header> Market(s) </mat-header-cell>
+      <mat-cell class="marketTh" *matCellDef="let element"> {{element.markets}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isActive">
+      <mat-header-cell class="rateStatusTh noOutlineOnFocus" *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+      <mat-cell class="rateStatusTh" *matCellDef="let element">
+        <ng-container *ngIf="element.isActive == true">
+          <i class="fa fa-circle active_status" aria-hidden="true"></i>Active</ng-container>
+        <ng-container *ngIf="!element.isActive">
+          <i class="fa fa-circle inactive_status" aria-hidden="true"></i>InActive</ng-container>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions" class="text-center">
+      <mat-header-cell class="rateActionTh invisible noOutlineOnFocus" [hidden]='isRead' *matHeaderCellDef mat-sort-header> </mat-header-cell>
+      <mat-cell class="rateActionTh placeholderColorGray" [hidden]='isRead' *matCellDef="let element">
+        <mat-select placeholder="Actions" name="Actions" [(ngModel)]="actions">
+          <mat-option value="{{element.id}}-edit" #edit (click)="GoRateUpdate(edit.value)">Edit</mat-option>
+          <mat-option value="{{element.id}}-delete" #delete (click)="GoRateDelete(delete.value)">Delete</mat-option>
+        </mat-select>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <div style="color:orange" *ngIf="isPolicyExists || isRoomExists">
+    Room type or cancellation policy is not created for this property, Create Room type and cancellation policy first.
+  </div>
+  <br>
+  <div style="color:orange" *ngIf="!(isPolicyExists || isRoomExists) && noDataAvailable">
+    No Rate Category is created.
+  </div>
+  <div class="paginationWrapper">
+    <span class="pageCount" *ngIf="!noDataAvailable">Page: {{(pageEvent) ? pageEvent.pageIndex + 1 : 1}} of {{(pageEvent) ? Math.ceil(pageEvent.length/pageEvent.pageSize)
+      : Math.ceil(totalRecords/20)}}</span>
+    <mat-paginator *ngIf="!noDataAvailable" class="genericPagination" (page)="pageEvent = $event" #paginator [pageSize]="20"
+      [pageSizeOptions]="[5, 10, 20, 50]">
+    </mat-paginator>
+  </div>
+
+</div>

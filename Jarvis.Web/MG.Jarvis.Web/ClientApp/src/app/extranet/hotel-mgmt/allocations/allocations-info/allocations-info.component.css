@@ -1,0 +1,232 @@
+
+.allocationsExpansionPanel tbody tr td { width: 8%; border-right: 1px solid #e3e3e3; }
+
+.allocationsExpansionPanel tbody tr td:first-child { 
+    width: 20%;
+    border-right: 1px solid #e3e3e3; 
+}
+
+.allocationsExpansionPanel tbody tr td{ 
+    vertical-align: middle;
+}
+ 
+.allocationStatus .circle-icon {
+    background: #57be7b;
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.allocationStatus .fa-key {
+    color: white;
+    font-size: 17px;
+    vertical-align: middle;
+}
+
+.allocationStatus .fa-exclamation{
+    color: #fff;
+    font-size: 18px;
+    position: absolute;
+    top: 7px;
+    left: 12px;
+}
+
+.allocationStatus .fa-check {
+    color: WHITE;
+    font-size: 19px;
+}
+.allocationDates {
+    margin: 1rem 0 0 0;
+    border: 1px solid #e3e3e3;
+}
+
+.allocationStatus .fa-times-thin {
+    color:#fff;
+    font-size: 28px;
+    vertical-align: middle;
+    transform: scale(1.1);
+}
+
+.allocationStatus .fa-times-thin:before {
+	content: '\00d7';
+}
+
+.allocationDates .fa-caret-left, .allocationDates .fa-caret-right  {
+    font-size: 30px;
+    color:  #c2c2c2;
+    cursor: pointer;
+}
+
+.greyBackground{
+    background-color:  #f4f4f4;
+}
+
+.circle-checked {
+  height: 30px;
+  width: 30px;
+  border-radius: 20px;
+  background: #92d05f;
+}
+
+.checkmark:after {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 0.9rem;
+    border: 4px solid #fff;
+    border-width: 0 3.49px 3.49px 0;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    margin: 0.4rem 0 0 0.7rem;
+}
+
+.asteriskIcon {
+    font-size: 2.1rem;
+    font-family: monospace;
+    color : #fff;
+    position: absolute;
+    right: 6px;
+    top: -4px;
+}
+.allocationsExpansionPanel.allocationStatus .asteriskIcon{
+    right: 6px;
+    top: 11px;
+}
+.allocationsExpansionPanel.allocationStatus .fa-key{
+    position: absolute;
+    top: 5px;
+    left: 7px;
+}
+
+.allocationsExpansionPanel.allocationStatus .soldOutStatus{
+    position: relative;
+}
+
+.allocationsExpansionPanel.allocationStatus .fa-times-thin{
+    position: absolute;
+    left: 7px;
+}
+
+.allocationStatusTxt{
+    color:  #333333;
+    font-size: 13.99px;
+}
+.restrictedStatus{
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    background:  #57be7b;
+    position: relative;
+}
+.notAvailableStatus{
+    position: relative;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    background:  #e9a335;
+}
+.soldOutStatus{
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    background:  #e55252;
+}
+.closedStatus{
+    position: relative;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    background:  #666666;
+}
+
+.allocationsExpansionPanel .fa-tag{
+    color:  #939da2;
+}
+
+.noPadding td {
+    padding-top: 0;
+    border-top: none;
+}
+
+.noPadding{ position: relative;}
+
+.allocationState.mat-button-toggle-group /deep/ .mat-button-toggle .mat-button-toggle-label-content{
+    padding: 5px 40px 5px 40px;
+    font-size: 14.99px;
+}
+
+.allocationState.mat-button-toggle-group .mat-button-toggle-label{
+    color: #004267;    
+}
+
+.dateHeading{
+    font-size: 0.9375rem;
+    text-align: center;
+    display: block;
+}
+
+body .clearLink {
+    color: #4168a1;
+    padding-left: 15px;
+    font-size: 0.875rem
+  }
+
+
+.borderBottom5px{
+    border-bottom: 10px solid #fff;
+    border-left:1px solid #e3e3e3
+}
+
+.allocationsExpansionPanel .blueBackground{
+    background: #d4e4fd;
+    padding: 14px 17px !important;
+}
+
+.allocationsExpansionPanel .mat-expansion-panel-header-title h6{
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 0;
+}
+
+.allocationsExpansionPanel .genericTable tr:nth-child(even),.allocationsExpansionPanel .genericTable mat-row:nth-child(odd) {background:none;}
+
+.lightBlueBackground{
+    background: #eff5ff !important;
+}
+
+.caretWrapper{
+    width: 21px;
+    height: 21px;
+    border: 1px solid #d3d4d6;
+    background: #fff;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+
+.caretWrapper .fa{
+    color: #29aae2;
+    font-size: 18px;
+    position: relative;
+    left: 4px;
+}
+
+.mat-expansion-indicator{
+    display: none;
+}
+
+.maxWidth50px{
+    max-width: 50px;
+}
+
+
+.clearLink{
+    color:#29aae2;
+}
+
+.showSpinner {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}

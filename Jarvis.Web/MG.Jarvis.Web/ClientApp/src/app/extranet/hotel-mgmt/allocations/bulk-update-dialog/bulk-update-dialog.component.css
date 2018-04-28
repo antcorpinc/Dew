@@ -1,0 +1,94 @@
+.ratesTable .rateCategoryTH {
+    width: 15%;
+}
+
+.ratesTable .roomTypeTH {
+    width: 14%;
+}
+
+.ratesTable .datesTH {
+    width: 22%;
+    min-width: 200px;
+}
+
+.ratesTable .daysTH {
+    width: 10%;
+}
+
+.ratesTable .typeTH {
+    width: 14%;
+}
+
+.ratesTable .allotmentTH {
+    width: 11%;
+}
+
+.ratesTable .bedTypeTh {
+    width: 14%;
+}
+
+.ratesTable th {
+    vertical-align: middle;
+}
+
+
+.restrictionsTable .rateCategoryTH {
+    width: 16%;
+}
+
+.restrictionsTable .roomTypeTH {
+    width: 15%;
+}
+
+.restrictionsTable .datesTH {
+    width: 22%;
+    min-width: 200px;
+}
+
+.restrictionsTable .daysTH {
+    width: 14%;
+}
+
+.restrictionsTable .typeTH {
+    width: 19%;
+}
+
+.restrictionsTable .numberOfDaysTh {
+    width: 14%;
+}
+
+
+
+.blackOutTable .rateCategoryTH {
+    width: 20%;
+}
+
+.blackOutTable .roomTypeTH {
+    width: 20%;
+}
+
+.blackOutTable .datesTH {
+    width: 20%;
+    min-width: 200px;
+}
+
+.blackOutTable .daysTH {
+    width: 25%;
+}
+
+.bulkUpdateModal {
+    width: 1000px;
+}
+
+.bulkUpdateModal .tableContainer {
+    height: 363px;
+}
+
+.bulkUpdateModal table {
+    table-layout: fixed;
+}
+
+
+
+
+

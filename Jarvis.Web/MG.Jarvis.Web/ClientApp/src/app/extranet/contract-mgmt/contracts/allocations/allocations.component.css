@@ -1,0 +1,44 @@
+.allocationsTable  .rateCategoryTH {
+    width: 10%;
+  } 
+  
+  .allocationsTable  .roomTypeTH {
+    width: 15%;
+}
+
+.allocationsTable  .datesTH {
+    width: 15%;
+}
+
+.allocationsTable  .daysTH {
+    width: 10%;
+}
+
+.allocationsTable  .typeTH {
+    width: 15%;
+}
+
+.allocationsTable  .allotmentTH {
+    width: 10%;
+}
+
+.allocationsTable .bedTypeTh {
+    width: 11%;
+}
+
+.allocationsTable .saveBtns {
+  width: 14%;
+}
+
+.maxWidth600px {
+  max-width: 600px;
+}
+
+.table th {
+    vertical-align: middle;
+}
+
+.controlButtons.saveBtns .genericButton {
+    min-width: 50px;
+    padding: 8px 10px;
+}

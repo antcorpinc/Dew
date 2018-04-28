@@ -1,0 +1,82 @@
+<!-- Edit Modal -->
+<div class="modalContainer">
+    <div class="modalHeading">
+        <span class="float-left modalHeader">Bulk Update</span>
+        <span class="closeIcon float-right" (click)="dialogRef.close(false)" title="Close">
+            <i aria-hidden="true" class="fa fa-times-thin"></i>
+        </span>
+    </div>
+    <div class="modalContent pt-0">
+        <form [formGroup]="photoForm" (ngSubmit)="savePhoto(true)">
+            <div *ngIf="modalView === create">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6 class="pt-4 pb-2">Select photo to upload</h6>
+                        <div class="row">
+                            <div class="col-md-12 controlButtons customFileUpload ">
+                                <input type="file" class="float-left" accept="image/*" (change)="fileChanged($event)"/>
+                                <button type="button" (click)="readFile()" class="genericButton activeButton mat-raised-button mat-primary float-left ml-2"
+                                    [disabled]="error !== null || errorSize !== null || !file || isUploadComplete">Upload</button>
+                                <span class="float-left ml-2 mt-2" *ngIf="!isUploadComplete && isFileUploaded" ><mat-spinner [diameter]="30"></mat-spinner></span>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pb-3">
+                    <span class="infoNote d-block pt-2 mb-1">Minimum Size:600px/800px</span>
+                    <span  class="textGreen d-block pr-2 text-left" *ngIf="isUploadComplete && isFileUploaded" >File Uploaded</span>
+                    <mat-error *ngIf="error !== null" class="d-block text-left">{{error}}</mat-error>
+                    <mat-error *ngIf="errorSize !== null" class="d-block text-left">{{errorSize}}</mat-error>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5">
+                    <mat-checkbox class="popoverCheckbox" formControlName="isMainPhoto">Set as the main photo</mat-checkbox>
+                    <h6 class="pt-3 pb-3">Select if this is a room photo</h6>
+
+                    <div *ngIf="roomList.length !== 0" class="roomType">
+                        <div formArrayName="roomArray" *ngFor="let roomType of roomArray.controls; let i =index">
+                            <div [formGroupName]="i">
+                                <mat-checkbox formControlName="isSelected" class="popoverCheckbox d-block pb-2">{{roomType.get('roomName').value}}</mat-checkbox>
+                                <!-- <mat-checkbox formControlName="isSelected" (change)="flagRoomTypeAsEdited(i)" class="pl-0 roomCheckBox">{{roomType.get('roomName').value}}</mat-checkbox> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div style="color:orange" *ngIf="roomList.length === 0"> No rooms created </div>
+
+                </div>
+
+                <div class="col-md-7">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="placeholderSection">
+                                <div *ngIf="!file || error || errorSize || !closeDialog">
+                                    <img src="assets/defaultUpload.png" class="placeHolderImage" />
+                                    <span class="d-block text-center optionsList">Photo will be shown here</span>
+                                </div>
+                                <img [attr.src]="src" class="img-placeholder" *ngIf="file && !error && !errorSize && closeDialog" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a (click)="savePhoto(false)" [ngClass]="{'linkDisabled': !isFileUploaded || !isUploadComplete, 'cursorPointer hyperLink': 'isFileUploaded && isUploadComplete'}" class="float-right pr-1">Save and upload another Photo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mt-5">
+                    <mat-dialog-actions>
+                        <div class="controlButtons pb-3">
+                            <button mat-raised-button title="Save" type="submit" class="genericButton activeButton mat-primary mat-raised-button" [disabled]="!isFileUploaded || !isUploadComplete">Save</button>
+                            <button type="button" mat-button title="Cancel" class="genericButton defaultButton" (click)="dialogRef.close(false)">Cancel</button>
+                        </div>
+                    </mat-dialog-actions>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

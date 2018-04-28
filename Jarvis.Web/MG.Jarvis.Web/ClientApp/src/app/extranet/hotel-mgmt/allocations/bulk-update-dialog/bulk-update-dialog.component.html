@@ -1,0 +1,343 @@
+<div class="modalContainer bulkUpdateModal">
+    <div class="modalHeading">
+        <span class="float-left modalHeader">Bulk Update</span>
+        <span class="closeIcon float-right" (click)="dialogRef.close(false)" title="Close">
+            <i aria-hidden="true" class="fa fa-times-thin"></i>
+        </span>
+    </div>
+    <div class="customBreadcrumb">
+        <span class="mandatoryInfo float-right textGrayColor">Indicates Mandatory Fields</span>
+    </div>
+    <div class="modalContent">
+        <div>
+            <mat-tab-group [@.disabled]="isDisabled">
+                <mat-tab label="Allocation and Rates">
+                    <table class="table genericTable ratesTable">
+                        <thead>
+                            <tr>
+                                <th class="rateCategoryTH">Rate Category *</th>
+                                <th class="roomTypeTH">Room Type *</th>
+                                <th class="datesTH">Dates *</th>
+                                <th class="daysTH">Days</th>
+                                <th class="typeTH">Type *</th>
+                                <th class="allotmentTH">Allotment</th>
+                                <th class="bedTypeTh">Bed Type & Rates (IDR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="rateCategoryTH border-0">
+                                    <mat-form-field>
+                                        <mat-select placeholder="Select">
+                                            <mat-option>Standard Rate</mat-option>
+                                            <mat-option>Room Only</mat-option>
+                                            <mat-option>Non-Refundable</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td class="roomTypeTH border-0">
+                                    <mat-form-field>
+                                        <mat-select placeholder="Select">
+                                            <mat-option>Haven - Double or Twin</mat-option>
+                                            <mat-option>Haven - Double Sunroof</mat-option>
+                                            <mat-option>Haven - Beach Front</mat-option>
+                                            <mat-option>Haven - Double with Balcony</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td class="datesTH border-0">
+                                    <div>
+                                        <div class="col-md-3 text-center pr-0">
+                                            <label class="optionsList mb-0">From:</label>
+                                        </div>
+                                        <div class="col-md-3 pl-0">
+                                            <mat-form-field>
+                                                <input matInput [matDatepicker]="picker1">
+                                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="col-md-1 pr-3 text-right">
+                                            <label class="optionsList mb-0">To:</label>
+                                        </div>
+                                        <div class="col-md-3 pl-0">
+                                            <mat-form-field>
+                                                <input matInput [matDatepicker]="picker2">
+                                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker2></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="daysTH border-0">
+                                    <mat-form-field>
+                                        <mat-select placeholder="Select">
+                                            <mat-option>Mon</mat-option>
+                                            <mat-option>Tue</mat-option>
+                                            <mat-option>Wed</mat-option>
+                                            <mat-option>Thu</mat-option>
+                                            <mat-option>Fri</mat-option>
+                                            <mat-option>Sat</mat-option>
+                                            <mat-option>Sun</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td class="typeTH border-0">
+                                    <mat-form-field>
+                                        <mat-select placeholder="Select">
+                                            <mat-option>Room Level</mat-option>
+                                            <mat-option>Rate Category</mat-option>
+                                            <mat-option>Is Free Side</mat-option>
+                                            <mat-option>Haven - Double with Balcony</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td class="allotmentTH border-0">
+                                    <mat-form-field>
+                                        <input matInput placeholder="">
+                                    </mat-form-field>
+                                </td>
+                                <td class="bedTypeTh border-0">
+                                    <mat-form-field>
+                                        <input matInput placeholder="Single">
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <input matInput placeholder="Double/Twin">
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <input matInput placeholder="Triple">
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <input matInput placeholder="Quad">
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <input matInput placeholder="Xbed">
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="controlButtons mt-5">
+                        <button type="button" title="OK" mat-raised-button class="genericButton activeButton mat-primary mat-raised-button" (click)="dialogRef.close(true)">Save</button>
+                        <button type="button" title="OK" mat-raised-button class="genericButton activeButton mat-primary mat-raised-button" (click)="dialogRef.close(true)">Save & Close</button>
+                        <button *ngIf="showCancel" type="button" title="Cancel" mat-raised-button class="ml-5 genericButton defaultButton mat-raised-button"
+                            (click)="dialogRef.close(false)">Cancel</button>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Restrictions">
+                    <form [formGroup]="restrictionForm">
+                        <table class="table genericTable restrictionsTable">
+                            <thead>
+                                <tr>
+                                    <th class="rateCategoryTH">Rate Category *</th>
+                                    <th class="roomTypeTH">Room Type *</th>
+                                    <th class="datesTH">Dates *</th>
+                                    <th class="daysTH">Days</th>
+                                    <th class="typeTH">Restriction Type *</th>
+                                    <th class="numberOfDaysTh">No. of Days</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="rateCategoryTH border-0">
+                                        <mat-form-field>
+                                            <mat-select placeholder="" formControlName="rateCategoryId" (change)="getRooms($event)" required>
+                                                <mat-option [value]="null">Select</mat-option>
+                                                <div *ngFor="let rateCategory of rateCategoryList">
+                                                    <mat-option [value]="rateCategory.id">
+                                                        {{rateCategory.name}}
+                                                    </mat-option>
+                                                </div>
+
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                    <td class="roomTypeTH border-0">
+                                        <mat-form-field>
+                                            <mat-select placeholder="" formControlName="roomId" (change)="getRatePlanId($event)" required>
+                                                <mat-option [value]="null">Select</mat-option>
+                                                <div *ngFor="let room of roomList">
+                                                    <mat-option [value]="room.roomId">
+                                                        {{room.roomName}}
+                                                    </mat-option>
+                                                </div>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                    <td class="datesTH border-0">
+                                        <div>
+                                            <div class="col-md-3 text-center pr-0">
+                                                <label class="optionsList mb-0">From:</label>
+                                            </div>
+                                            <mat-form-field class="width80percent">
+
+                                                <mat-datepicker-toggle matSuffix [for]="startDate" required>
+                                                    <mat-icon matDatepickerToggleIcon>
+                                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                    </mat-icon>
+                                                </mat-datepicker-toggle>
+                                                <input matInput readonly [matDatepicker]="startDate" placeholder="DD-MMM-YY" formControlName="startDate">
+                                                <mat-datepicker #startDate></mat-datepicker>
+                                            </mat-form-field>
+
+                                        </div>
+                                        <div>
+                                            <div class="col-md-1 pr-3 text-right">
+                                                <label class="optionsList mb-0">To:</label>
+                                            </div>
+                                            <mat-form-field class="width80percent">
+                                                <input matInput readonly [matDatepicker]="endDate" placeholder="DD-MMM-YY" formControlName="endDate" [min]="restrictionForm.get('startDate').value || todaysDate"
+                                                    required>
+                                                <mat-datepicker-toggle matSuffix [for]="endDate">
+                                                    <mat-icon matDatepickerToggleIcon>
+                                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                    </mat-icon>
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #endDate></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                    </td>
+                                    <td class="daysTH border-0">
+                                        <mat-form-field>
+                                            <mat-select multiple placeholder="" formControlName="daysArray">
+                                                <div *ngFor="let day of days">
+                                                    <mat-option [value]="day.value">
+                                                        {{day.value}}
+                                                    </mat-option>
+                                                </div>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                    <td class="typeTH border-0">
+                                        <mat-form-field>
+                                            <mat-select placeholder="" formControlName="restrictionTypeId" (change)="selectedRestrictionType()" required>
+                                                <mat-option [value]="null">Select</mat-option>
+                                                <div *ngFor="let restrictionType of restrictionTypeList">
+                                                    <mat-option [value]="restrictionType.id">
+                                                        {{restrictionType.name}}
+                                                    </mat-option>
+                                                </div>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                    <td class="numberOfDaysTh border-0">
+                                        <mat-form-field>
+                                            <input matInput placeholder="" pattern="^[1-9]*$" formControlName="restrictionTypeValue">
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                                <div *ngIf="errorMessage">Duplicate restriction, please modify the criteria.</div>
+                            </tbody>
+                        </table>
+                        <div class="controlButtons mt-5">
+                            <button type="button" title="OK" mat-raised-button class="genericButton activeButton mat-primary mat-raised-button" (click)="saveRestriction()"
+                                [disabled]="!restrictionForm.valid">Save</button>
+                            <button type="button" title="OK" mat-raised-button class="genericButton activeButton mat-primary mat-raised-button" (click)="dialogRef.close(true); saveRestriction()"
+                                [disabled]="!restrictionForm.valid">Save & Close</button>
+                            <button *ngIf="showCancel" type="button" title="Cancel" mat-raised-button class="ml-5 genericButton defaultButton mat-raised-button"
+                                (click)="dialogRef.close(false)">Cancel</button>
+                        </div>
+                    </form>
+                </mat-tab>
+                <mat-tab label="Black Out">
+                    <form [formGroup]="blackOutForm">
+                        <table class="table genericTable blackOutTable">
+                            <thead>
+                                <tr>
+                                    <th class="rateCategoryTH">Rate Category *</th>
+                                    <th class="roomTypeTH">Room Type *</th>
+                                    <th class="datesTH">Dates *</th>
+                                    <th class="daysTH">Days</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="rateCategoryTH border-0">
+                                        <mat-form-field>
+                                            <mat-select placeholder="" formControlName="rateCategoryId" (change)="getRooms($event)" required>
+                                                <mat-option [value]="null">Select</mat-option>
+                                                <div *ngFor="let rateCategory of rateCategoryList">
+                                                    <mat-option [value]="rateCategory.id">
+                                                        {{rateCategory.name}}
+                                                    </mat-option>
+                                                </div>
+
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                    <td class="roomTypeTH border-0">
+                                        <mat-form-field>
+                                            <mat-select placeholder="" formControlName="roomId" (change)="getRatePlanId($event)" required>
+                                                <mat-option [value]="null">Select</mat-option>
+                                                <div *ngFor="let room of roomList">
+                                                    <mat-option [value]="room.roomId">
+                                                        {{room.roomName}}
+                                                    </mat-option>
+                                                </div>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                    <td class="datesTH border-0">
+                                        <div>
+                                            <div class="col-md-3 text-center pr-0">
+                                                <label class="optionsList mb-0">From:</label>
+                                            </div>
+                                            <mat-form-field class="width80percent">
+
+                                                <mat-datepicker-toggle matSuffix [for]="fromdate" required>
+                                                    <mat-icon matDatepickerToggleIcon>
+                                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                    </mat-icon>
+                                                </mat-datepicker-toggle>
+                                                <input matInput readonly [matDatepicker]="fromdate" placeholder="DD-MMM-YY" formControlName="fromDate">
+                                                <mat-datepicker #fromdate></mat-datepicker>
+                                            </mat-form-field>
+
+                                        </div>
+                                        <div>
+                                            <div class="col-md-1 pr-3 text-right">
+                                                <label class="optionsList mb-0">To:</label>
+                                            </div>
+                                            <mat-form-field class="width80percent">
+                                                <input matInput readonly [matDatepicker]="todate" placeholder="DD-MMM-YY" formControlName="toDate" [min]="blackOutForm.get('fromDate').value || todaysDate"
+                                                    required>
+                                                <mat-datepicker-toggle matSuffix [for]="todate">
+                                                    <mat-icon matDatepickerToggleIcon>
+                                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                    </mat-icon>
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #todate></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                    </td>
+                                    <td class="daysTH border-0">
+                                        <mat-form-field>
+                                            <mat-select multiple placeholder="" formControlName="daysArray">
+                                                <div *ngFor="let day of days">
+                                                    <mat-option [value]="day.value">
+                                                        {{day.value}}
+                                                    </mat-option>
+                                                </div>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                                <div *ngIf="blackOutMessage">Duplicate data, please modify the criteria.</div>
+                            </tbody>
+                        </table>
+                        <div class="controlButtons mt-5">
+                            <button type="button" title="OK" mat-raised-button class="genericButton activeButton mat-primary mat-raised-button" (click)="saveBlackOut()"
+                                [disabled]="!blackOutForm.valid">Save</button>
+                            <button type="button" title="OK" mat-raised-button class="genericButton activeButton mat-primary mat-raised-button" (click)="dialogRef.close(true); saveBlackOut()"
+                                [disabled]="!blackOutForm.valid">Save & Close</button>
+                            <button *ngIf="showCancel" type="button" title="Cancel" mat-raised-button class="ml-5 genericButton defaultButton mat-raised-button"
+                                (click)="dialogRef.close(false)">Cancel</button>
+                        </div>
+                    </form>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

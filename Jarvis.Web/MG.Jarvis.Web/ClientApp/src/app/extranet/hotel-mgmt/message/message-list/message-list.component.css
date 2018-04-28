@@ -1,0 +1,39 @@
+.messageTitleTH{
+    width: 20%;
+}
+
+.messageTypeTH{
+    width: 10%;
+}
+
+.messageDescriptionTH{
+    width: 20%;
+}
+
+.messageCreatedByTH{
+    width: 10%;
+}
+
+.messageStartDateTH{
+    width: 10%;
+}
+
+.messageEndDateTH{
+    width: 10%;
+}
+
+.messageStatusTH{
+    width: 10%;
+}
+
+.messageActionTH{
+    width: 10%;
+}
+
+.maxWidth505px {
+    max-width: 505px;
+}
+
+.elpsisContent {
+    top: 4px;
+}
